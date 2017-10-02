@@ -6,7 +6,14 @@ import GoalItem from './GoalItem';
 
 class GoalList extends Component {
 
+    componentWillReceiveProps(nextProps) {
+        console.log('nextProps',nextProps);
+        if(this.props.email !== nextProps.email) this.forceUpdate();
+    }
+
+
     componentDidMount() {
+        console.log('email in CMDP', this.props, this.state);
         goalRef.orderByChild('email').equalTo("harry1@yahoo.com").on('value', snap => {
         //goalRef.on('value', snap => {
             let goals = [];
@@ -16,16 +23,18 @@ class GoalList extends Component {
                 const serverKey = goal.key;
                 goals.push({ email, title, serverKey });
             })
+            console.log('firebase goals 1',goals )
             this.props.setGoals(goals);
         })
     }
     render(){
+        console.log('this.props.goals in goal list', this.props.goals);
         return(
             <div>
                 {
-                    this.props.userGoals.map((goal, index) => {
+                    this.props.goals.map((goal, index) => {
                         return (
-                            <GoalItem key={index} goal={goal} />
+                            <GoalItem key={index} goal={goal} user={this.props.user} />
                         )
                     })
                 }
@@ -35,16 +44,27 @@ class GoalList extends Component {
 }
 
 function mapStateToProps(state) {
+
+    console.log('gload list : state',state)
+
+
     const { goals } = state;
     const { user } = state;
     const { email } = user;
-    const userGoals = [];
-    if (goals.length > 0 ){
-        userGoals.push(goals.find(item => item.email === email));
-    }
+    //const userGoals = goals;
+    // const userGoals = [];
+    // if (goals.length > 0 ){
+    //     userGoals.push(goals.find(item => item.email === email));
+    // }
+    // return {
+    //     email,
+    //     userGoals
+    // }
+
     return {
+        user,
         email,
-        userGoals
+        goals
     }
 }
 

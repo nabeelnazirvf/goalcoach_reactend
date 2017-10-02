@@ -11,6 +11,9 @@ class App extends Component {
         firebaseApp.auth().signOut();
     }
     render(){
+
+        console.log('hello 123 app.js',this.props.email);
+
         return (
             <div style={{margin: '5px'}}>
                 <h2>Welcome {this.props.email}</h2>
@@ -18,7 +21,7 @@ class App extends Component {
                 <AddGoal />
                 <hr />
                 <h4>Goals</h4>
-                <GoalList email={this.props.email}/>
+                <GoalList emaill={this.props.email}/>
                 <hr />
                 <h4>Completed Goals</h4>
                 <CompleteGoalList />

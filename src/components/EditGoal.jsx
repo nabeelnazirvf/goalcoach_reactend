@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateGoal } from "../actions/index";
-//import { completeGoalRef, goalRef } from '../firebase';
+import { goalRef } from '../firebase';
 
 class EditGoal extends Component {
-    updateGoal(serverKey,email){
-        console.log('updateGoal this.state.goal and serverKey', this.state.title, serverKey);
-        this.props.updateGoal(this.state.title, serverKey, email);
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            title_value: ''
+            // ,
+            // update_form: true
+        }
     }
+
 
     render() {
         const { email, title, serverKey } = this.props.goal;
-        console.log('edit title serverKey:', email, title, serverKey, this.props.goal);
+        console.log('edit goal edit title serverKey:', email, title, serverKey, this.props);
         return (
             <div>
                 <form className="form-inline">
@@ -20,11 +25,11 @@ class EditGoal extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            // value={title}
-                            onChange={event => this.setState({title: event.target.value})}
+                            value={this.props.title}
+                            onChange={event => this.props.editTitle(event.target.value)}
                         />
                     </div>
-                    <button onClick={() => this.updateGoal(serverKey,email)} type={"button"} className={"btn btn-success"}>Update</button>
+                    <button onClick={() => this.props.updateGoal(serverKey,email, this.props.title)} type={"button"} className={"btn btn-success"}>Update</button>
                 </form>
             </div>
         )
@@ -32,11 +37,11 @@ class EditGoal extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('mapStateToProps', state);
+    console.log('mapStateToProps in edit', state);
     return {
-        goals: state
+        goals: state.goals
     }
 }
 
 
-export default connect(mapStateToProps, {updateGoal})(EditGoal);
+export default connect(mapStateToProps, {})(EditGoal);

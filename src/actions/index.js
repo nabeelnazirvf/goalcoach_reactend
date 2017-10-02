@@ -1,4 +1,4 @@
-import { SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL} from '../constants';
+import {SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL} from '../constants';
 
 
 export function logUser(email) {
@@ -9,10 +9,10 @@ export function logUser(email) {
     return action;
 }
 
-export function setGoals(userGoals) {
+export function setGoals(goals) {
     const action = {
         type: SET_GOALS,
-        userGoals
+        goals
     }
     return action;
 }
@@ -33,13 +33,22 @@ export function setUserEmail(user) {
     return action;
 }
 
-export const updateGoal = (title, serverKey, email) => {
+export const updateGoal = (email, title, serverKey) => {
     console.log('updateGoal action', title);
     const action = {
         type: UPDATE_GOAL,
+        email,
         title,
-        serverKey,
-        email
+        serverKey
     }
+    return action;
+}
+
+export const deleteGoal = (serverKey) => {
+    const action = {
+        type: DELETE_GOAL,
+        serverKey
+    }
+    console.log('deleting in actions', action);
     return action;
 }

@@ -18,6 +18,9 @@ class AddGoal extends Component {
     }
 
     render() {
+
+        console.log('this.props',this.props);
+
         return (
             <div className="form-inline">
                 <div className="form-group">
@@ -42,6 +45,9 @@ class AddGoal extends Component {
 }
 
 function mapStateToProps(state) {
+
+    console.log('Add goal : state',state);
+
     const { user } = state;
     return {
         user
