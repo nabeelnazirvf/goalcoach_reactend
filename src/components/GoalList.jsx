@@ -7,28 +7,22 @@ import GoalItem from './GoalItem';
 class GoalList extends Component {
 
     componentWillReceiveProps(nextProps) {
-        console.log('nextProps',nextProps);
-        if(this.props.email !== nextProps.email) this.forceUpdate();
-    }
-
-
-    componentDidMount() {
-        console.log('email in CMDP', this.props, this.state);
-        goalRef.orderByChild('email').equalTo("harry1@yahoo.com").on('value', snap => {
-        //goalRef.on('value', snap => {
-            let goals = [];
-            snap.forEach(goal => {
-                let goalObject = goal.val();
-                const { email, title } = goal.val();
-                const serverKey = goal.key;
-                goals.push({ email, title, serverKey });
+        console.log('componentWillReceiveProps in listing ', this.props, nextProps);
+        if(this.props.email !== nextProps.email){
+            goalRef.orderByChild('email').equalTo(nextProps.email).on('value', snap => {
+            //goalRef.on('value', snap => {
+                let goals = [];
+                snap.forEach(goal => {
+                    let goalObject = goal.val();
+                    const { email, title } = goal.val();
+                    const serverKey = goal.key;
+                    goals.push({ email, title, serverKey });
+                })
+                this.props.setGoals(goals);
             })
-            console.log('firebase goals 1',goals )
-            this.props.setGoals(goals);
-        })
+        }
     }
     render(){
-        console.log('this.props.goals in goal list', this.props.goals);
         return(
             <div>
                 {
@@ -44,23 +38,9 @@ class GoalList extends Component {
 }
 
 function mapStateToProps(state) {
-
-    console.log('gload list : state',state)
-
-
     const { goals } = state;
     const { user } = state;
     const { email } = user;
-    //const userGoals = goals;
-    // const userGoals = [];
-    // if (goals.length > 0 ){
-    //     userGoals.push(goals.find(item => item.email === email));
-    // }
-    // return {
-    //     email,
-    //     userGoals
-    // }
-
     return {
         user,
         email,

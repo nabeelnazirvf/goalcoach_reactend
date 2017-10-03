@@ -18,8 +18,6 @@ class GoalItem extends Component {
     }
 
     completeGoal() {
-        // add to complete goals on the database
-        // remove this goal from the goals reference
         const { email } = this.props.user;
         const { title, serverKey } = this.props.goal;
         goalRef.child(serverKey).remove();
@@ -31,23 +29,18 @@ class GoalItem extends Component {
     }
 
     deleteGoal(serverKey){
-        console.log('server key', serverKey);
         this.props.deleteGoal(serverKey);
         goalRef.child(serverKey).remove();
     }
 
     updateGoal(serverKey,email, title){
-        console.log('updateGoal this.state.goal and serverKey', this.state.title, serverKey);
         this.props.updateGoal(email, title, serverKey);
         goalRef.child(serverKey).set({ title: title, email: email});
-        //this.setState({update_form: false})
         this.setState({isEditVisible: false});
     }
 
     render() {
-        console.log('goal item props', this.props.goal);
         const { email, title, serverKey } = this.props.goal;
-        console.log('goal item attr', email, title, this.props.goal.serverKey );
         return (
             <div style={{margin: '5px'}}>
                 <strong>{title}</strong>
@@ -72,10 +65,5 @@ class GoalItem extends Component {
         )
     }
 }
-// function mapStateToProps(state) {
-//     return {}
-// }
 
-
-//export default GoalItem;
 export default connect(null, { deleteGoal, updateGoal })(GoalItem);

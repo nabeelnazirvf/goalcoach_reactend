@@ -9,11 +9,12 @@ import reducer from './reducers';
 import App from './components/App';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
+import UserProfile from './components/UserProfile';
 
 const store = createStore(reducer);
-
 firebaseApp.auth().onAuthStateChanged(user => {
     if (user) {
+        console.log('user index.js', user);
         const { email } = user;
         store.dispatch(logUser(email));
         browserHistory.push('/app');
@@ -29,6 +30,7 @@ ReactDOM.render(
             <Route path="/app" component={App} />
             <Route path="/signin" component={SignIn} />
             <Route path="/signup" component={SignUp} />
+            <Route path="/update-profile" component={UserProfile} />
         </Router>
     </Provider>,
     document.getElementById('root')

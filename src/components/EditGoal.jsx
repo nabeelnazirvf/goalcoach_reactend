@@ -8,15 +8,12 @@ class EditGoal extends Component {
         super(props);
         this.state = {
             title_value: ''
-            // ,
-            // update_form: true
         }
     }
 
 
     render() {
         const { email, title, serverKey } = this.props.goal;
-        console.log('edit goal edit title serverKey:', email, title, serverKey, this.props);
         return (
             <div>
                 <form className="form-inline">
@@ -37,7 +34,6 @@ class EditGoal extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('mapStateToProps in edit', state);
     return {
         goals: state.goals
     }

@@ -34,7 +34,6 @@ export function setUserEmail(user) {
 }
 
 export const updateGoal = (email, title, serverKey) => {
-    console.log('updateGoal action', title);
     const action = {
         type: UPDATE_GOAL,
         email,
@@ -49,6 +48,5 @@ export const deleteGoal = (serverKey) => {
         type: DELETE_GOAL,
         serverKey
     }
-    console.log('deleting in actions', action);
     return action;
 }

@@ -4,15 +4,21 @@ import { setCompleted } from '../actions';
 import { completeGoalRef } from '../firebase';
 
 class CompleteGoalList extends Component {
-    componentDidMount() {
-        completeGoalRef.on('value', snap => {
-            let completeGoals = [];
-            snap.forEach(completeGoal => {
-                const { email, title } = completeGoal.val();
-                completeGoals.push({email, title})
+
+    componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps in complete', this.props, nextProps);
+        if(this.props.user.email !== nextProps.user.email) {
+            console.log('this.props.user.email', this.props, nextProps, );
+            completeGoalRef.orderByChild('email').equalTo(nextProps.user.email).on('value', snap => {
+                //completeGoalRef.on('value', snap => {
+                let completeGoals = [];
+                snap.forEach(completeGoal => {
+                    const {email, title} = completeGoal.val();
+                    completeGoals.push({email, title})
+                })
+                this.props.setCompleted(completeGoals);
             })
-            this.props.setCompleted(completeGoals);
-        })
+        }
     }
 
     clearCompleted() {
@@ -44,9 +50,12 @@ class CompleteGoalList extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log('state in complete', state);
     const { completeGoals } = state;
+    const { user } = state;
     return {
-        completeGoals
+        completeGoals,
+        user
     }
 }
 
