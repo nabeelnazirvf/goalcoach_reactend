@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { goalRef } from '../firebase';
-
+import { browserHistory } from 'react-router';
 
 class AddGoal extends Component {
     constructor(props) {
@@ -14,7 +14,30 @@ class AddGoal extends Component {
     addGoal() {
         const { title } = this.state;
         const { email } = this.props.user;
-        goalRef.push({email, title});
+        fetch("http://localhost:3001/goals.json", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': window.localStorage.getItem('access_token')
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify({email: email, title: title})
+        }).catch((error) => {
+            this.setState({error});
+            console.log("Fail zone");
+        }).then((res) => {
+            if (res.ok) {
+                res.json().then((json) => {
+                });
+                console.log('res', res);
+
+            } else {
+                console.log("error", res);
+                browserHistory.replace('/signin');
+            }
+        });
+
     }
 
     render() {

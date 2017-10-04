@@ -2,6 +2,7 @@ import {SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE
 
 
 export function logUser(email) {
+    console.log('logUser action', email);
     const action = {
         type: SIGNED_IN,
         email

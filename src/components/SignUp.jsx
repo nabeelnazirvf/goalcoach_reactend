@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { firebaseApp } from '../firebase';
+import {logUser} from "../actions/index";
+import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 
 class SignUp extends Component {
     constructor(props) {
@@ -16,10 +19,33 @@ class SignUp extends Component {
 
     signUp() {
         const { email, password } = this.state;
-        firebaseApp.auth().createUserWithEmailAndPassword(email, password)
-            .catch(error => {
-                this.setState({error})
+        fetch("http://localhost:3001/users.json", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify({
+                user: {name:email ,email: email, password: password, password_confirmation: password}
             })
+        }).catch((error) => {
+            this.setState({error});
+            console.log("Fail zone");
+        }).then((res) => {
+            if (res.ok) {
+                res.json().then((json) => {
+                    console.log('json', json, json.access_token);
+                    this.props.logUser(email);
+                    window.localStorage.setItem('access_token', json.auth_token);
+                    browserHistory.push('/app');
+                });
+                console.log('res', res);
+
+            } else {
+                console.log("error", res);
+            }
+        });
     }
 
     render(){
@@ -56,4 +82,4 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+export default connect(null, { logUser })(SignUp);

@@ -11,6 +11,7 @@ export default (state = user, action) => {
             user = {
                 email
             }
+            console.log('SIGNED_IN reducer', user);
             return user;
         case SET_USER_EMAIL:
             return user;

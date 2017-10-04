@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { firebaseApp } from '../firebase';
+import {logUser} from "../actions/index";
+import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 
 class SignIn extends Component {
     constructor(props) {
@@ -16,10 +18,32 @@ class SignIn extends Component {
 
     signIn() {
         const { email, password } = this.state;
-        firebaseApp.auth().signInWithEmailAndPassword(email, password)
-            .catch(error => {
-                this.setState({error})
-            })
+        fetch("http://localhost:3001//authenticate.json", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify({email: email, password: password})
+        }).catch((error) => {
+            this.setState({error});
+            console.log("Fail zone");
+        }).then((res) => {
+            if (res.ok) {
+                res.json().then((json) => {
+                    console.log('json', json, json.access_token);
+                    this.props.logUser(email);
+                    window.localStorage.setItem('access_token', json.auth_token);
+                    browserHistory.push('/app');
+                });
+                console.log('res', res);
+
+            } else {
+                console.log("error", res);
+                browserHistory.replace('/signin');
+            }
+        });
     }
 
     render() {
@@ -56,4 +80,4 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export default connect(null, { logUser })(SignIn);

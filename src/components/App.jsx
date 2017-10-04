@@ -6,10 +6,12 @@ import GoalList from './GoalList';
 import CompleteGoalList from './CompleteGoalList';
 import { setUserEmail } from "../actions/index";
 import {Link} from 'react-router';
+import { browserHistory } from 'react-router';
 
 class App extends Component {
     signOut() {
-        firebaseApp.auth().signOut();
+        window.localStorage.removeItem('access_token');
+        browserHistory.replace('/signin');
     }
     render(){
         return (
@@ -42,6 +44,7 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log('mapStateToProps in APP', state);
     const { user } = state;
     const { email } = user;
     return {
@@ -49,4 +52,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { setUserEmail })(App);
+export default connect(mapStateToProps, null)(App);
