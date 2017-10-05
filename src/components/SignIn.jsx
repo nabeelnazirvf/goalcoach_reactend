@@ -32,7 +32,7 @@ class SignIn extends Component {
         }).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log('json', json, json.access_token);
+                    console.log('json ok!!****', json, json.access_token, email);
                     this.props.logUser(email);
                     window.localStorage.setItem('access_token', json.auth_token);
                     browserHistory.push('/app');

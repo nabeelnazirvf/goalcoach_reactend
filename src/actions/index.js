@@ -1,4 +1,4 @@
-import {SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL} from '../constants';
+import {SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL, LOAD_GOALS} from '../constants';
 
 
 export function logUser(email) {
@@ -10,9 +10,17 @@ export function logUser(email) {
     return action;
 }
 
-export function setGoals(goals) {
+export function setGoals(goal) {
     const action = {
         type: SET_GOALS,
+        goal
+    }
+    return action;
+}
+
+export function loadGoals(goals) {
+    const action = {
+        type: LOAD_GOALS,
         goals
     }
     return action;

@@ -1,14 +1,36 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { goalRef } from '../firebase';
+import { setGoals } from "../actions/index";
 import { browserHistory } from 'react-router';
-
+import $ from "jquery";
+import GoalItem from './GoalItem';
 class AddGoal extends Component {
     constructor(props) {
         super(props);
         this.state = {
             title: ''
         }
+    }
+
+    componentDidMount(){
+        var that = this;
+        $(function() {
+            console.log('request AIIII');
+            var faye = require('faye');
+            var client = new faye.Client('http://localhost:9292/faye');
+            client.subscribe("/messages/new", function(data) {
+                that.appendGoalItem(data);
+                //alert(data);
+            });
+        });
+    }
+
+    appendGoalItem(data) {
+        console.log('appendGoalItem data ', data, data["title"], data.title, data[0]);
+        //alert(data);
+        this.props.setGoals({title: 'abcdef', email:'yes@yahoo.com' });
+        //<GoalItem key={"abc"} goal={this.props.goals[0]} user={this.props.user} />
     }
 
     addGoal() {
@@ -29,6 +51,8 @@ class AddGoal extends Component {
         }).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
+                    console.log('this.props in ok of fetch', this.props, json);
+                    this.props.setGoals({title:json.title, email: json.email});
                 });
                 console.log('res', res);
 
@@ -66,10 +90,13 @@ class AddGoal extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log('mapStateToProps in add goal', state);
     const { user } = state;
+    const { goals } = state;
     return {
-        user
+        user,
+        goals
     }
 }
 
-export default connect(mapStateToProps, null)(AddGoal);
+export default connect(mapStateToProps, {setGoals})(AddGoal);

@@ -6,3 +6,4 @@ export const SET_COMPLETED = 'SET_COMPLETED';
 export const SET_USER_EMAIL = 'SET_COMPLETED';
 export const UPDATE_GOAL = 'UPDATE_GOAL';
 export const DELETE_GOAL = 'DELETE_GOAL';
+export const LOAD_GOALS = 'LOAD_GOALS';

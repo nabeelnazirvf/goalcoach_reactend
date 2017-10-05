@@ -1,4 +1,4 @@
-import {SET_GOALS, UPDATE_GOAL, DELETE_GOAL} from '../constants';
+import {SET_GOALS, UPDATE_GOAL, DELETE_GOAL, LOAD_GOALS} from '../constants';
 
 const goal = (action) => {
     let {title,serverKey,email} = action;
@@ -18,9 +18,32 @@ const removeBykey = (all_goals, serverKey) => {
 export default (all_goals = [], action) => {
     let newGoals = [];
     switch(action.type) {
-        case SET_GOALS:
+
+        case LOAD_GOALS:
+
             const { goals } = action;
-            return goals;
+            all_goals = goals;
+
+            return all_goals;
+
+        case SET_GOALS:
+
+            console.log('action',action);
+            let goal = action.goal;
+            goal.created_at = '';
+            goal.updated_at = '';
+
+            console.log('reducer all goals', goal);
+            console.log('all_goals', all_goals);
+
+            all_goals.push(goal);
+            console.log('all_goals', all_goals);
+
+            all_goals = all_goals.slice();
+
+            return all_goals;
+
+
         case UPDATE_GOAL:
             all_goals.forEach((userGoal) => {
                 if(userGoal.serverKey === action.serverKey) {

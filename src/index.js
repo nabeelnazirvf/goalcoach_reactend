@@ -10,7 +10,7 @@ import App from './components/App';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import UserProfile from './components/UserProfile';
-
+//import faye from "faye";
 const store = createStore(reducer);
 
 console.log('INDEX');

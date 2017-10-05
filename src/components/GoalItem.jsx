@@ -40,6 +40,7 @@ class GoalItem extends Component {
     }
 
     render() {
+        //alert('HELLO!!!');
         const { email, title, serverKey } = this.props.goal;
         return (
             <div style={{margin: '5px'}}>

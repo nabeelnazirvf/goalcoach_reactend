@@ -1,30 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { goalRef } from '../firebase';
-import { setGoals } from "../actions/index";
+import { setGoals, loadGoals } from "../actions/index";
 import GoalItem from './GoalItem';
 import { browserHistory } from 'react-router';
 class GoalList extends Component {
 
-    // componentWillReceiveProps(nextProps) {
-    //     console.log('componentWillReceiveProps in listing ', this.props, nextProps);
-    //     if(this.props.email !== nextProps.email){
-    //         //goalRef.orderByChild('email').equalTo(nextProps.email).on('value', snap => {
-    //         goalRef.on('value', snap => {
-    //             let goals = [];
-    //             snap.forEach(goal => {
-    //                 let goalObject = goal.val();
-    //                 const { email, title } = goal.val();
-    //                 const serverKey = goal.key;
-    //                 goals.push({ email, title, serverKey });
-    //             })
-    //             this.props.setGoals(goals);
-    //         })
-    //     }
-    // }
-
     componentDidMount(){
-        console.log('componentDidMount props', this.props);
         fetch("http://localhost:3001/goals.json", {
             method: "GET",
             headers: {
@@ -40,7 +22,7 @@ class GoalList extends Component {
             if (res.ok) {
                 res.json().then((json) => {
                     console.log('goals', json);
-                    this.props.setGoals(json);
+                    this.props.loadGoals(json);
                 });
                 console.log('res', res);
 
@@ -52,6 +34,7 @@ class GoalList extends Component {
     }
 
     render(){
+        console.log('render of goals list', this.props);
         return(
             <div>
                 {
@@ -77,4 +60,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { setGoals })(GoalList);
+export default connect(mapStateToProps, { setGoals, loadGoals })(GoalList);
