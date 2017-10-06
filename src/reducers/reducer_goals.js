@@ -9,8 +9,8 @@ const goal = (action) => {
     }
 }
 
-const removeBykey = (all_goals, serverKey) => {
-    all_goals = all_goals.filter(goal => goal.serverKey !== serverKey);
+const removeBykey = (all_goals, id) => {
+    all_goals = all_goals.filter(goal => goal.id !== id);
     return all_goals;
 }
 
@@ -18,41 +18,26 @@ const removeBykey = (all_goals, serverKey) => {
 export default (all_goals = [], action) => {
     let newGoals = [];
     switch(action.type) {
-
         case LOAD_GOALS:
-
             const { goals } = action;
             all_goals = goals;
-
             return all_goals;
-
         case SET_GOALS:
-
-            console.log('action',action);
+            console.log('reducer action',action);
             let goal = action.goal;
-            goal.created_at = '';
-            goal.updated_at = '';
-
-            console.log('reducer all goals', goal);
-            console.log('all_goals', all_goals);
-
             all_goals.push(goal);
-            console.log('all_goals', all_goals);
-
             all_goals = all_goals.slice();
-
             return all_goals;
-
-
         case UPDATE_GOAL:
             all_goals.forEach((userGoal) => {
-                if(userGoal.serverKey === action.serverKey) {
+                if(userGoal.id === action.id) {
                     userGoal.title = action.title;
                 }
                 newGoals.push(userGoal);
             });
+            return newGoals;
         case DELETE_GOAL:
-            newGoals = removeBykey(all_goals, action.serverKey);
+            newGoals = removeBykey(all_goals, action.id);
             return newGoals;
 
         default:

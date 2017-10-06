@@ -20,16 +20,20 @@ class AddGoal extends Component {
             var faye = require('faye');
             var client = new faye.Client('http://localhost:9292/faye');
             client.subscribe("/messages/new", function(data) {
-                that.appendGoalItem(data);
+                //alert(data);
+                var newData = data.split(',');
+                var title = newData[0];
+                var email = newData[1];
+                var id = newData[2];
+                that.appendGoalItem(title, email, id);
                 //alert(data);
             });
         });
     }
 
-    appendGoalItem(data) {
-        console.log('appendGoalItem data ', data, data["title"], data.title, data[0]);
-        //alert(data);
-        this.props.setGoals({title: 'abcdef', email:'yes@yahoo.com' });
+    appendGoalItem(title, email, id) {
+        console.log('appendGoalItem data ', title, email, id);
+        this.props.setGoals({title: title, email: email, id: id});
         //<GoalItem key={"abc"} goal={this.props.goals[0]} user={this.props.user} />
     }
 
@@ -52,7 +56,7 @@ class AddGoal extends Component {
             if (res.ok) {
                 res.json().then((json) => {
                     console.log('this.props in ok of fetch', this.props, json);
-                    this.props.setGoals({title:json.title, email: json.email});
+                    //this.props.setGoals(json);
                 });
                 console.log('res', res);
 

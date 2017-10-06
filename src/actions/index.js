@@ -42,20 +42,20 @@ export function setUserEmail(user) {
     return action;
 }
 
-export const updateGoal = (email, title, serverKey) => {
+export const updateGoal = (email, title, id) => {
     const action = {
         type: UPDATE_GOAL,
         email,
         title,
-        serverKey
+        id
     }
     return action;
 }
 
-export const deleteGoal = (serverKey) => {
+export const deleteGoal = (id) => {
     const action = {
         type: DELETE_GOAL,
-        serverKey
+        id
     }
     return action;
 }

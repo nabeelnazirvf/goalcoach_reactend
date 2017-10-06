@@ -16,26 +16,34 @@ class App extends Component {
     render(){
         return (
             <div className={"container"}>
+                <div className={"row"}>
+                    <nav className="navbar navbar-default">
+                        <div className="container">
+                            <div className="navbar-header">
+                                <span className="navbar-brand">Goal Coach</span>
+                            </div>
+                            <div className={"sign-out-margin-top pull-right"}>
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={() => this.signOut()}>
+                                    Sign Out
+                                </button>
+                            </div>
+                            <Link className="update-profile-link" to={"/update-profile"}>
+                                <div className={"img-circular"}>
+                                </div>
+                            </Link>
+                        </div>
+                    </nav>
+                </div>
                 <div className={"content"}>
                     <div style={{margin: '5px'}}>
-                        <div>
-                            <h2>Welcome {this.props.email}</h2>
-                            <Link className="btn btn-primary table-responsive" to={"/update-profile"}>Update Profile</Link>
-                        </div>
-                        <h3>Goal Coach</h3>
                         <AddGoal />
                         <hr />
-                        <h4>Goals</h4>
                         <GoalList emaill={this.props.email}/>
-                        <hr />
-                        <h4>Completed Goals</h4>
-                        <CompleteGoalList />
-                        <hr />
-                        <button
-                            className="btn btn-danger"
-                            onClick={() => this.signOut()}>
-                            Sign Out
-                        </button>
+                        {/*<h4>Completed Goals</h4>*/}
+                        {/*<CompleteGoalList />*/}
+                        {/*<hr />*/}
                     </div>
                 </div>
             </div>

@@ -13,7 +13,8 @@ class EditGoal extends Component {
 
 
     render() {
-        const { email, title, serverKey } = this.props.goal;
+        console.log('this.props.goal in edit', this.props.goal);
+        const { email, title, serverKey, id } = this.props.goal;
         return (
             <div>
                 <form className="form-inline">
@@ -26,7 +27,7 @@ class EditGoal extends Component {
                             onChange={event => this.props.editTitle(event.target.value)}
                         />
                     </div>
-                    <button onClick={() => this.props.updateGoal(serverKey,email, this.props.title)} type={"button"} className={"btn btn-success"}>Update</button>
+                    <button onClick={() => this.props.updateGoal(id,email, this.props.title)} type={"button"} className={"btn btn-success"}>Update</button>
                 </form>
             </div>
         )
