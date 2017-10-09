@@ -92,7 +92,7 @@ class UserProfile extends Component {
         reader.readAsDataURL(file);
         reader.onload = function () {
             image_base = reader.result;
-            console.log('image_base', image_base);
+            //console.log('image_base', image_base);
         };
         reader.onerror = function (error) {
             console.log('Error: ', error);
