@@ -4,6 +4,8 @@ import { firebaseApp, userRef } from '../firebase';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { setCurrentUser } from "../actions/index";
+import $ from "jquery";
+
 class UserProfile extends Component {
 
     constructor(props) {
@@ -42,6 +44,9 @@ class UserProfile extends Component {
                     photoURL = json.image_base;
                     console.log('that.props.setCurrentUser(json)');
                     that.props.setCurrentUser(json);
+                    window.localStorage.removeItem('current_user');
+                    var current_user = { 'name': json.name, 'email': json.email, 'photoURL': json.image_base };
+                    window.localStorage.setItem('current_user', JSON.stringify(current_user));
                     //this.setState({ displayName: name ? name : '', photoURL: photoURL ? photoURL : 'https://www.cuba-platform.com/support/public/avatars/default-avatar.svg'})
                 });
                 console.log('res', res);
@@ -84,6 +89,7 @@ class UserProfile extends Component {
 
 
     uploadImage(event, id, email){
+        $('.loading').removeClass('hidden');
         var that = this;
         var uploader = document.getElementById('uploader');
         let file = event.target.files[0];
@@ -117,7 +123,7 @@ class UserProfile extends Component {
                         res.json().then((json) => {
                             //that.setState({photoURL: json.image_base});
                             that.props.setCurrentUser(json);
-
+                            $('.loading').addClass('hidden');
                         });
                         console.log('res', res);
 
@@ -150,7 +156,6 @@ class UserProfile extends Component {
                                 <img className={"img-responsive user-img"} src={this.props.current_user.image_base} alt=""/>
                         </div>
                         <div>
-                            <progress value={"0"} max={"100"} id={"uploader"}></progress>
                             <input type="file" name="fileToUpload" id="fileToUpload" onChange ={(event) => this.uploadImage(event)} />
                         </div>
                         <hr/>

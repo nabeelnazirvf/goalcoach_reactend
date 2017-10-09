@@ -98,7 +98,7 @@ class GoalItem extends Component {
                     </a>
                 </td>
                 <td>{title}</td>
-                <td>{email}</td>
+                <td>{JSON.parse(window.localStorage.getItem('current_user')).email}</td>
             </tr>
             <tr>
                 <td></td>

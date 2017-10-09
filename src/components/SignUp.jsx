@@ -51,33 +51,49 @@ class SignUp extends Component {
 
     render(){
         return(
-            <div className="form-inline" style={{margin: '5%'}}>
-                <h2>Sign Up</h2>
-                <div className="form-group">
-                    <input
-                        className="form-control"
-                        type="text"
-                        style={{marginRight: '5px'}}
-                        placeholder="email"
-                        onChange={event => this.setState({email: event.target.value})}
-                    />
-                    <input
-                        className="form-control"
-                        type="password"
-                        style={{marginRight: '5px'}}
-                        placeholder="password"
-                        onChange={event => this.setState({password: event.target.value})}
-                    />
-                    <button
-                        className="btn btn-primary"
-                        type="button"
-                        onClick={() => this.signUp()}
-                    >
-                        Sign Up
-                    </button>
+            <div className="container">
+                <div className="row main">
+                    <div className="main-login main-center">
+                        <h5 className={"text-center"}>Sign Up</h5>
+                        <div className="form-group">
+                            <label for="email" className="cols-sm-2 control-label">Your Email</label>
+                            <div className="cols-sm-10">
+                                <div className="input-group">
+                                    <span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input
+                                        className="form-control"
+                                        type="text"
+                                        style={{marginRight: '5px'}}
+                                        placeholder="email"
+                                        onChange={event => this.setState({email: event.target.value})}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label for="password" className="cols-sm-2 control-label">Password</label>
+                            <div className="cols-sm-10">
+                                <div className="input-group">
+                                    <span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input
+                                        className="form-control"
+                                        type="password"
+                                        style={{marginRight: '5px'}}
+                                        placeholder="password"
+                                        onChange={event => this.setState({password: event.target.value})}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="form-group ">
+                            <a  onClick={() => this.signUp()} type="button" id="button" className="btn btn-primary btn-lg btn-block login-button">SignUp</a>
+                        </div>
+                        {<div>{this.state.error.message}</div>}
+                        <div><Link className={"signup"} to={'/signin'}>Already a user? Sign in instead</Link></div>
+                    </div>
                 </div>
-                {<div>{this.state.error.message}</div>}
-                <div><Link to={'/signin'}>Already a user? Sign in instead</Link></div>
             </div>
         )
     }
