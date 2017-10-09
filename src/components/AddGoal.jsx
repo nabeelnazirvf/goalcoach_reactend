@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { goalRef } from '../firebase';
 import { setGoals } from "../actions/index";
 import { browserHistory } from 'react-router';
 import $ from "jquery";

@@ -30,8 +30,7 @@ class App extends Component {
                                 </button>
                             </div>
                             <Link className="update-profile-link" to={"/update-profile"}>
-                                <div className={"img-circular"}>
-                                </div>
+                                <img src={"https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAvzAAAAJDljMTg2ZTNiLTAxMmEtNDkzMS04NTQ0LTJjZmE1NjE1NDdmNw.jpg"} className="img-circular"/>
                             </Link>
                         </div>
                     </nav>

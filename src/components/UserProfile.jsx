@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router';
 import { firebaseApp, userRef } from '../firebase';
-
+import { browserHistory } from 'react-router';
+import { connect } from 'react-redux';
+import { setCurrentUser } from "../actions/index";
 class UserProfile extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            displayName: '',
+            displayName: this.props.current_user.name,
             photoURL: '',
             file: '',
             error: ''
@@ -15,56 +17,127 @@ class UserProfile extends Component {
         }
     }
     componentWillMount() {
-        var user = firebaseApp.auth().currentUser;
-        name = user.displayName;
-        let photoURL = user.photoURL;
-        console.log('photoURL', photoURL, user);
-        this.setState({ displayName: name ? name : '', photoURL: photoURL ? photoURL : 'https://www.cuba-platform.com/support/public/avatars/default-avatar.svg'})
+        var that = this;
+        name = '';
+        var id = undefined;
+        let photoURL = '';
+        var email = window.localStorage.getItem('email');
+        console.log('user fetch email', email, this.props);
+        fetch("http://localhost:3001/users/"+id+"/?email="+window.localStorage.getItem('email'), {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': window.localStorage.getItem('access_token')
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: undefined
+        }).catch((error) => {
+            this.setState({error});
+            console.log("Fail zone");
+        }).then((res) => {
+            if (res.ok) {
+                res.json().then((json) => {
+                    name = json.name;
+                    photoURL = json.image_base;
+                    console.log('that.props.setCurrentUser(json)');
+                    that.props.setCurrentUser(json);
+                    //this.setState({ displayName: name ? name : '', photoURL: photoURL ? photoURL : 'https://www.cuba-platform.com/support/public/avatars/default-avatar.svg'})
+                });
+                console.log('res', res);
+
+            } else {
+                console.log("error", res);
+                browserHistory.replace('/signin');
+            }
+        });
     }
 
     updateUserProfile(displayName){
-        var user = firebaseApp.auth().currentUser;
-        console.log('updateUserProfile user', displayName, user, user.uid);
-        user.updateProfile({
-            displayName: displayName,
-            photoURL: user.photoURL
-        }).then(function() {
-            console.log('user Update successful');
-        }).catch(function(error) {
-            console.log('user Update failed');
-        });
-        console.log('updateUserProfile user', user);
+        var that = this;
+        fetch("http://localhost:3001/users/"+this.props.current_user.id+".json", {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': window.localStorage.getItem('access_token')
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify({email: window.localStorage.getItem('email'), name: displayName})
+        }).catch((error) => {
+            this.setState({error});
+            console.log("Fail zone");
+        }).then((res) => {
+            if (res.ok) {
+                res.json().then((json) => {
+                    //that.setState({displayName: json.name});
+                    that.props.setCurrentUser(json);
+                });
+                console.log('res', res);
 
+            } else {
+                console.log("error", res);
+                browserHistory.replace('/signin');
+            }
+        });
     }
-    uploadImage(event){
-        var user = firebaseApp.auth().currentUser;
-        //this.setState({file: event.target.files[0]});
-        console.log('event and file', event, event.target)
+
+
+    uploadImage(event, id, email){
+        var that = this;
         var uploader = document.getElementById('uploader');
         let file = event.target.files[0];
-        var storageRef = firebaseApp.storage().ref('user/'+user.uid+'/' + file.name);
-        var task = storageRef.put(file);
-        task.on('state_changed',
-            function progress(snapshot) {
-                var percentage = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                uploader.value = percentage;
-            },
-            function error(err) {
-                console.log('errors', err);
-            },
-            function complete() {
+        let image_base = '';
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+            image_base = reader.result;
+            console.log('image_base', image_base);
+        };
+        reader.onerror = function (error) {
+            console.log('Error: ', error);
+        };
+        setTimeout(function() {
+            console.log('image_base 1 ',image_base);
+            if (typeof image_base != "undefined"){
+                fetch("http://localhost:3001/users/"+that.props.current_user.id+".json", {
+                    method: "PATCH",
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': window.localStorage.getItem('access_token')
+                    },
+                    mode: 'cors',
+                    cache: 'default',
+                    body: JSON.stringify({email: window.localStorage.getItem('email'), image_base: image_base})
+                }).catch((error) => {
+                    this.setState({error});
+                    console.log("Fail zone");
+                }).then((res) => {
+                    if (res.ok) {
+                        res.json().then((json) => {
+                            //that.setState({photoURL: json.image_base});
+                            that.props.setCurrentUser(json);
 
+                        });
+                        console.log('res', res);
+
+                    } else {
+                        console.log("error", res);
+                        browserHistory.replace('/signin');
+                    }
+                });
             }
-        );
+        }, 1000);
     }
     render() {
+        console.log('this.props in user profile render', this.props)
         return (
             <div className="container">
                 <div className="content">
                     <div className="form">
                         <h2>Update Profile</h2>
                         <div className="form-group">
-                            <label>Your Current Display Name: {this.state.displayName}</label>
+                            <label>Your Current Display Name: {this.props.current_user.name}</label>
                         </div>
                         <div className="form-group">
                             <input className="form-control"
@@ -74,7 +147,7 @@ class UserProfile extends Component {
                                    onChange ={event => this.setState({displayName: event.target.value})}></input>
                         </div>
                         <div className="form-group">
-                            <img src={this.state.photoURL} alt=""/>
+                                <img className={"img-responsive user-img"} src={this.props.current_user.image_base} alt=""/>
                         </div>
                         <div>
                             <progress value={"0"} max={"100"} id={"uploader"}></progress>
@@ -96,4 +169,13 @@ class UserProfile extends Component {
     }
 }
 
-export default UserProfile;
+//export default UserProfile;
+function mapStateToProps(state) {
+    const { current_user } = state;
+    console.log('mapStateToProps current_user', current_user, state)
+    return {
+        current_user
+    }
+}
+
+export default connect(mapStateToProps, {setCurrentUser})(UserProfile);

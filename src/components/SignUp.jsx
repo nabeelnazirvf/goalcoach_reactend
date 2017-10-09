@@ -38,6 +38,7 @@ class SignUp extends Component {
                     console.log('json', json, json.access_token);
                     this.props.logUser(email);
                     window.localStorage.setItem('access_token', json.auth_token);
+                    window.localStorage.setItem('email', email);
                     browserHistory.push('/app');
                 });
                 console.log('res', res);
