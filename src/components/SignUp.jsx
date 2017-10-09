@@ -35,15 +35,15 @@ class SignUp extends Component {
         }).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log('json', json, json.access_token);
+                    console.log('json signUp', json, json.access_token);
                     this.props.logUser(email);
-                    window.localStorage.setItem('access_token', json.auth_token);
+                    window.localStorage.setItem('access_token', json.access_token);
                     window.localStorage.setItem('email', email);
                     browserHistory.push('/app');
                 });
-                console.log('res', res);
 
             } else {
+                console.log('json signUp failure');
                 console.log("error", res);
             }
         });

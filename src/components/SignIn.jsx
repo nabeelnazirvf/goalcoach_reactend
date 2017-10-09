@@ -35,7 +35,7 @@ class SignIn extends Component {
                 res.json().then((json) => {
                     console.log('json ok!!****', json, json.access_token, email);
                     this.props.logUser(email);
-                    window.localStorage.setItem('access_token', json.auth_token);
+                    window.localStorage.setItem('access_token', json.access_token);
                     window.localStorage.setItem('email', email);
                     browserHistory.push('/app');
                 });
