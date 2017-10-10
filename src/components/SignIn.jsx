@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import {logUser} from "../actions/index";
+import {logUser, setCurrentUser} from "../actions/index";
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import '../sign_in_out.css'
@@ -16,8 +16,11 @@ class SignIn extends Component {
             }
         }
     }
-
     signIn() {
+        var that = this;
+        name = '';
+        var id = undefined;
+        let photoURL = '';
         const { email, password } = this.state;
         fetch("http://localhost:3001//authenticate.json", {
             method: "POST",
@@ -29,20 +32,40 @@ class SignIn extends Component {
             body: JSON.stringify({email: email, password: password})
         }).catch((error) => {
             this.setState({error});
-            console.log("Fail zone");
         }).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log('json ok!!****', json, json.access_token, email);
                     this.props.logUser(email);
                     window.localStorage.setItem('access_token', json.access_token);
                     window.localStorage.setItem('email', email);
-                    browserHistory.push('/app');
+                    fetch("http://localhost:3001/users/"+id+"/?email="+window.localStorage.getItem('email'), {
+                        method: "GET",
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': window.localStorage.getItem('access_token')
+                        },
+                        mode: 'cors',
+                        cache: 'default',
+                        body: undefined
+                    }).catch((error) => {
+                        this.setState({error});
+                    }).then((res) => {
+                        if (res.ok) {
+                            res.json().then((json) => {
+                                var currentUser = { 'name': json.name, 'email': json.email, 'image_base': json.image_base};
+                                window.localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                            });
+
+                        } else {
+                            browserHistory.replace('/signin');
+                        }
+                    });
+                    setTimeout(function() {
+                        browserHistory.push('/app');
+                    }, 1000);
                 });
-                console.log('res', res);
 
             } else {
-                console.log("error", res);
                 browserHistory.replace('/signin');
             }
         });
@@ -98,4 +121,4 @@ class SignIn extends Component {
     }
 }
 
-export default connect(null, { logUser })(SignIn);
+export default connect(null, { logUser, setCurrentUser })(SignIn);

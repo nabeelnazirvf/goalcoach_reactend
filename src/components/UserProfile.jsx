@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { setCurrentUser } from "../actions/index";
 import $ from "jquery";
+import '../user_profile.css'
 
 class UserProfile extends Component {
 
@@ -15,47 +16,7 @@ class UserProfile extends Component {
             photoURL: '',
             file: '',
             error: ''
-            //displayName: this.props.user.displayName
         }
-    }
-    componentWillMount() {
-        var that = this;
-        name = '';
-        var id = undefined;
-        let photoURL = '';
-        var email = window.localStorage.getItem('email');
-        console.log('user fetch email', email, this.props);
-        fetch("http://localhost:3001/users/"+id+"/?email="+window.localStorage.getItem('email'), {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': window.localStorage.getItem('access_token')
-            },
-            mode: 'cors',
-            cache: 'default',
-            body: undefined
-        }).catch((error) => {
-            this.setState({error});
-            console.log("Fail zone");
-        }).then((res) => {
-            if (res.ok) {
-                res.json().then((json) => {
-                    name = json.name;
-                    photoURL = json.image_base;
-                    console.log('that.props.setCurrentUser(json)');
-                    that.props.setCurrentUser(json);
-                    window.localStorage.removeItem('current_user');
-                    var current_user = { 'name': json.name, 'email': json.email, 'photoURL': json.image_base };
-                    window.localStorage.setItem('current_user', JSON.stringify(current_user));
-                    //this.setState({ displayName: name ? name : '', photoURL: photoURL ? photoURL : 'https://www.cuba-platform.com/support/public/avatars/default-avatar.svg'})
-                });
-                console.log('res', res);
-
-            } else {
-                console.log("error", res);
-                browserHistory.replace('/signin');
-            }
-        });
     }
 
     updateUserProfile(displayName){
@@ -71,17 +32,16 @@ class UserProfile extends Component {
             body: JSON.stringify({email: window.localStorage.getItem('email'), name: displayName})
         }).catch((error) => {
             this.setState({error});
-            console.log("Fail zone");
         }).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
-                    //that.setState({displayName: json.name});
+                    window.localStorage.removeItem('currentUser');
+                    var currentUser = { 'name': json.name, 'email': json.email, 'image_base': json.image_base};
+                    window.localStorage.setItem('currentUser', JSON.stringify(currentUser));
                     that.props.setCurrentUser(json);
                 });
-                console.log('res', res);
 
             } else {
-                console.log("error", res);
                 browserHistory.replace('/signin');
             }
         });
@@ -98,13 +58,10 @@ class UserProfile extends Component {
         reader.readAsDataURL(file);
         reader.onload = function () {
             image_base = reader.result;
-            //console.log('image_base', image_base);
         };
         reader.onerror = function (error) {
-            console.log('Error: ', error);
         };
         setTimeout(function() {
-            console.log('image_base 1 ',image_base);
             if (typeof image_base != "undefined"){
                 fetch("http://localhost:3001/users/"+that.props.current_user.id+".json", {
                     method: "PATCH",
@@ -117,18 +74,17 @@ class UserProfile extends Component {
                     body: JSON.stringify({email: window.localStorage.getItem('email'), image_base: image_base})
                 }).catch((error) => {
                     this.setState({error});
-                    console.log("Fail zone");
                 }).then((res) => {
                     if (res.ok) {
                         res.json().then((json) => {
-                            //that.setState({photoURL: json.image_base});
+                            window.localStorage.removeItem('currentUser');
+                            var currentUser = { 'name': json.name, 'email': json.email, 'image_base': json.image_base};
+                            window.localStorage.setItem('currentUser', JSON.stringify(currentUser));
                             that.props.setCurrentUser(json);
                             $('.loading').addClass('hidden');
                         });
-                        console.log('res', res);
 
                     } else {
-                        console.log("error", res);
                         browserHistory.replace('/signin');
                     }
                 });
@@ -136,48 +92,126 @@ class UserProfile extends Component {
         }, 1000);
     }
     render() {
-        console.log('this.props in user profile render', this.props)
+        let image_url = '';
+        image_url = this.props.current_user.image_base ? this.props.current_user.image_base : 'http://itsworldcongress2017.org/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png'
         return (
             <div className="container">
-                <div className="content">
-                    <div className="form">
-                        <h2>Update Profile</h2>
-                        <div className="form-group">
-                            <label>Your Current Display Name: {this.props.current_user.name}</label>
-                        </div>
-                        <div className="form-group">
-                            <input className="form-control"
-                                   type="text"
-                                   placeholder="Name"
-                                   value={this.state.displayName}
-                                   onChange ={event => this.setState({displayName: event.target.value})}></input>
-                        </div>
-                        <div className="form-group">
-                                <img className={"img-responsive user-img"} src={this.props.current_user.image_base} alt=""/>
-                        </div>
-                        <div>
-                            <input type="file" name="fileToUpload" id="fileToUpload" onChange ={(event) => this.uploadImage(event)} />
-                        </div>
-                        <hr/>
-                        <div className="form-group">
-                            <button className="btn btn-primary" onClick = {() => this.updateUserProfile(this.state.displayName)} >Update</button>
-                            <div>
-                                <span> {this.state.error} </span>
+                <br/>
+                    <br/>
+                        <div className="row" id="main">
+                            <div className="col-md-4 well" id="leftPanel">
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <div>
+                                            <img src={image_url} className="img-circle img-thumbnail"/>
+                                                <h2>{this.props.current_user.name}</h2>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                                    tempor incididunt ut labore et dolore magna aliqua.</p>
+                                                <div className="btn-group">
+                                                    <button type="button" className="btn btn-warning">
+                                                        Social</button>
+                                                    <button type="button" className="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                                        <span className="caret"></span><span className="sr-only">Social</span>
+                                                    </button>
+                                                    <ul className="dropdown-menu" role="menu">
+                                                        <li><a href="#">Twitter</a></li>
+                                                        <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
+                                                        <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
+                                                        <li className="divider"></li>
+                                                        <li><a href="#">Github</a></li>
+                                                    </ul>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <br/>
-                            <div><Link to={'/app'}>Back to Main Page</Link></div>
+                            <div className="col-md-8 well" id="rightPanel">
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <form role="form">
+                                            <h2>Edit your profile.<small>It's always easy</small></h2>
+                                            <hr className="colorgraph" />
+                                                <div className="row">
+                                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                                        <div className="form-group">
+                                                            <input
+                                                                type="text" name="first_name" id="first_name" className="form-control input-lg" placeholder="First Name" tabindex="1"
+                                                                value={this.state.displayName}
+                                                                onChange ={event => this.setState({displayName: event.target.value})}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                                        <div className="form-group">
+                                                            <input type="text" name="last_name" id="last_name" className="form-control input-lg" placeholder="Last Name" tabindex="2" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="form-group">
+                                                    <input type="email" name="email" id="email" className="form-control input-lg" placeholder="Email Address" tabindex="4" />
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                                        <div className="form-group">
+                                                            <input type="password" name="password" id="password" className="form-control input-lg" placeholder="Password" tabindex="5" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                                        <div className="form-group">
+                                                            <input type="password" name="password_confirmation" id="password_confirmation" className="form-control input-lg" placeholder="Confirm Password" tabindex="6" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-12 col-sm-6 col-md-6">
+                                                        <label className="btn btn-primary">
+                                                            Upload Image&hellip; <input type="file" name="fileToUpload" id="fileToUpload" onChange ={(event) => this.uploadImage(event)} className={"hidden"} />
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <hr className="colorgraph"/>
+                                                <div className="row">
+                                                    <div className="col-xs-12 col-md-6">
+                                                        <Link to={'/app'}>Back to Main Page</Link>
+                                                    </div>
+                                                    <div className="col-xs-12 col-md-6"><a onClick = {() => this.updateUserProfile(this.state.displayName)} className="btn btn-success btn-block btn-lg">Save</a></div>
+                                                    <div className="col-xs-12 col-md-6">
+                                                        <span> {this.state.error} </span>
+                                                    </div>
+                                                </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div className="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div className="modal-dialog modal-lg">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                <h4 className="modal-title" id="myModalLabel">Terms & Conditions</h4>
+                                            </div>
+                                            <div className="modal-body">
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-primary" data-dismiss="modal">I Agree</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
             </div>
         )
     }
 }
 
-//export default UserProfile;
 function mapStateToProps(state) {
+    console.log('mapStateToProps in user profile', state);
     const { current_user } = state;
-    console.log('mapStateToProps current_user', current_user, state)
     return {
         current_user
     }

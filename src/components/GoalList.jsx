@@ -21,13 +21,10 @@ class GoalList extends Component {
         }).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log('goals', json);
                     this.props.loadGoals(json);
                 });
-                console.log('res', res);
 
             } else {
-                console.log("error", res);
                 browserHistory.replace('/signin');
             }
         });
@@ -69,8 +66,8 @@ class GoalList extends Component {
                                         <th className="col-check"><input type="checkbox" id="checkall" onclick="test()"/></th>
                                         <th className="col-tools"><span className="glyphicon glyphicon-wrench" aria-hidden="true"></span>
                                         </th>
-                                        <th className="col-text">Title</th>
-                                        <th className="col-text">Submitted By</th>
+                                        <th className="col-text text-center">Title</th>
+                                        <th className="col-text text-center">Submitted By</th>
                                     </tr>
                                     </thead>
                                     {

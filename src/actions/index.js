@@ -65,6 +65,5 @@ export const setCurrentUser = (current_user) => {
         type: SET_CURRENT_USER,
         current_user
     }
-    console.log('setCurrentUser action', action);
     return action;
 }

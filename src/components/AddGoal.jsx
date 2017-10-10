@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setGoals } from "../actions/index";
+import { setGoals, setCurrentUser } from "../actions/index";
 import { browserHistory } from 'react-router';
 import $ from "jquery";
 import GoalItem from './GoalItem';
+var faye = require('faye');
+var client = new faye.Client('http://localhost:9292/faye');
+
 class AddGoal extends Component {
     constructor(props) {
         super(props);
         this.state = {
             title: ''
         }
+        this.appendGoalItem = this.appendGoalItem.bind(this);
     }
 
     componentDidMount(){
         var that = this;
         $(function() {
-            console.log('request AIIII');
-            var faye = require('faye');
-            var client = new faye.Client('http://localhost:9292/faye');
+            console.log('request AIIII componentDidMount');
             client.subscribe("/messages/new", function(data) {
                 //alert(data);
                 var newData = data.split(',');
@@ -30,6 +32,10 @@ class AddGoal extends Component {
         });
     }
 
+    componentWillUnmount() {
+        client.unsubscribe("/messages/new")
+    }
+
     appendGoalItem(title, email, id) {
         console.log('appendGoalItem data ', title, email, id);
         this.props.setGoals({title: title, email: email, id: id});
@@ -38,7 +44,7 @@ class AddGoal extends Component {
 
     addGoal() {
         const { title } = this.state;
-        const { email } = this.props.user;
+        const { email } = this.props.current_user.email;
         fetch("http://localhost:3001/goals.json", {
             method: "POST",
             headers: {
@@ -96,10 +102,12 @@ function mapStateToProps(state) {
     console.log('mapStateToProps in add goal', state);
     const { user } = state;
     const { goals } = state;
+    const { current_user } = state;
     return {
         user,
-        goals
+        goals,
+        current_user
     }
 }
 
-export default connect(mapStateToProps, {setGoals})(AddGoal);
+export default connect(mapStateToProps, {setGoals,setCurrentUser})(AddGoal);

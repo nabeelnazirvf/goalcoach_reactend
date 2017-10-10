@@ -93,12 +93,13 @@ class GoalItem extends Component {
                     <a className="btn btn-default" onClick={() => this.setState({ isEditVisible: true}) }>
                         <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                     </a>
+                    &nbsp;
                     <a className="btn btn-danger" onClick={() => this.deleteGoal(id) }>
                         <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </a>
                 </td>
                 <td>{title}</td>
-                <td>{JSON.parse(window.localStorage.getItem('current_user')).email}</td>
+                <td>{email}</td>
             </tr>
             <tr>
                 <td></td>

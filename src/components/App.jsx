@@ -9,59 +9,25 @@ import {Link} from 'react-router';
 import { browserHistory } from 'react-router';
 
 class App extends Component {
-    // componentWillMount() {
-    //     var that = this;
-    //     name = '';
-    //     var id = undefined;
-    //     let photoURL = '';
-    //     var email = window.localStorage.getItem('email');
-    //     console.log('user fetch email', email, this.props);
-    //     fetch("http://localhost:3001/users/"+id+"/?email="+window.localStorage.getItem('email'), {
-    //         method: "GET",
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': window.localStorage.getItem('access_token')
-    //         },
-    //         mode: 'cors',
-    //         cache: 'default',
-    //         body: undefined
-    //     }).catch((error) => {
-    //         this.setState({error});
-    //         console.log("Fail zone");
-    //     }).then((res) => {
-    //         if (res.ok) {
-    //             res.json().then((json) => {
-    //                 name = json.name;
-    //                 photoURL = json.image_base;
-    //                 console.log('that.props.setCurrentUser(json)');
-    //                 that.props.setCurrentUser(json);
-    //                 //window.localStorage.removeItem('current_user');
-    //                 var current_user = { 'name': json.name, 'email': json.email, 'photoURL': json.image_base };
-    //                 window.localStorage.setItem('current_user', JSON.stringify(current_user));
-    //                 //this.setState({ displayName: name ? name : '', photoURL: photoURL ? photoURL : 'https://www.cuba-platform.com/support/public/avatars/default-avatar.svg'})
-    //             });
-    //             console.log('res', res);
-    //
-    //         } else {
-    //             console.log("error", res);
-    //             browserHistory.replace('/signin');
-    //         }
-    //     });
-    // }
+    componentDidMount() {
+        console.log('componentDidMount in APP', JSON.parse(window.localStorage.getItem('currentUser')));
+        this.props.setCurrentUser(JSON.parse(window.localStorage.getItem('currentUser')));
+    }
 
     signOut() {
+        window.localStorage.removeItem('currentUser');
         browserHistory.replace('/signin');
     }
     render(){
-        const {name, photoURL} = JSON.parse(window.localStorage.getItem('current_user'));
-        console.log('JSON.parse(window.localStorage.getItem(\'current_user\'));', name);
+        let image_url = '';
+        image_url = this.props.current_user.image_base ? this.props.current_user.image_base : 'http://itsworldcongress2017.org/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png'
         return (
             <div className={"container"}>
                 <div className={"row"}>
                     <nav className="navbar navbar-default">
                         <div className="container">
                             <div className="navbar-header">
-                                <span className="navbar-brand">Welcome {name} To Goal Coach</span>
+                                <span className="navbar-brand">Welcome {this.props.current_user.name} To Goal Coach</span>
                             </div>
                             <div className={"sign-out-margin-top pull-right"}>
                                 <button
@@ -71,7 +37,7 @@ class App extends Component {
                                 </button>
                             </div>
                             <Link className="update-profile-link" to={"/update-profile"}>
-                                <img src={photoURL} className="img-circular"/>
+                                <img src={image_url} className="img-circular"/>
                             </Link>
                         </div>
                     </nav>
@@ -92,10 +58,9 @@ function mapStateToProps(state) {
     console.log('mapStateToProps in APP', state);
     const { user } = state;
     const { current_user } = state;
-    const { email } = user;
     return {
-        email
+        current_user
     }
 }
 
-export default connect(mapStateToProps, {setCurrentUser})(App);
+export default connect(mapStateToProps, { setCurrentUser })(App);

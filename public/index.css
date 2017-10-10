@@ -192,3 +192,4 @@
         transform: rotate(360deg);
     }
 }
+#mytable td {text-align: center;}
