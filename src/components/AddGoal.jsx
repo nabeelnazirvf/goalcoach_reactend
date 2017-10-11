@@ -21,12 +21,13 @@ class AddGoal extends Component {
         $(function() {
             console.log('request AIIII componentDidMount');
             client.subscribe("/messages/new", function(data) {
-                //alert(data);
+                alert(data);
                 var newData = data.split(',');
                 var title = newData[0];
                 var email = newData[1];
                 var id = newData[2];
-                that.appendGoalItem(title, email, id);
+                var created_at = newData[3];
+                that.appendGoalItem(title, email, id, created_at);
                 //alert(data);
             });
         });
@@ -36,9 +37,9 @@ class AddGoal extends Component {
         client.unsubscribe("/messages/new")
     }
 
-    appendGoalItem(title, email, id) {
+    appendGoalItem(title, email, id, created_at) {
         console.log('appendGoalItem data ', title, email, id);
-        this.props.setGoals({title: title, email: email, id: id});
+        this.props.setGoals({title: title, email: email, id: id, created_at: created_at});
         //<GoalItem key={"abc"} goal={this.props.goals[0]} user={this.props.user} />
     }
 
@@ -62,6 +63,7 @@ class AddGoal extends Component {
                 res.json().then((json) => {
                     console.log('this.props in ok of fetch', this.props, json);
                     //this.props.setGoals(json);
+                    $('#add-goal-modal-close').click();
                 });
                 console.log('res', res);
 
@@ -76,22 +78,34 @@ class AddGoal extends Component {
     render() {
 
         return (
-            <div className="form-inline">
-                <div className="form-group">
-                    <input
-                        type="text"
-                        placeholder="Add a goal"
-                        className="form-control"
-                        style={{marginRight: '5px'}}
-                        onChange={event => this.setState({title: event.target.value})}
-                    />
-                    <button
-                        className="btn btn-success"
-                        type="button"
-                        onClick={() => this.addGoal()}
-                    >
-                        Submit
-                    </button>
+            <div className="modal fade" id="add-goal-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 className="modal-title" id="myModalLabel4">Add Goal</h4>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                <div className="col-md-6">
+                                    <h4>Add Goal</h4>
+                                    <p>
+                                        <input
+                                            type="text"
+                                            placeholder="Add a goal"
+                                            className="form-control"
+                                            style={{marginRight: '5px'}}
+                                            onChange={event => this.setState({title: event.target.value})}
+                                        />
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button id={"add-goal-modal-close"} type="button" className="btn-u btn-u-default" data-dismiss="modal">Close</button>
+                            <button type="button" className="btn-u btn-u-primary" onClick={() => this.addGoal()}>Save changes</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

@@ -83,33 +83,41 @@ class GoalItem extends Component {
 
     render() {
         console.log('Goal item goals', this.props, this.props.goal.title);
-        const {title, id, serverKey } = this.props.goal;
-        const {email } = this.props.user;
+        const {title, id, serverKey, created_at } = this.props.goal;
+        const { email } = this.props.user;
+        var myDate = new Date(created_at);
         return (
-            <tbody>
-            <tr data-status="completed">
-                <td align="center"><input type="checkbox" className="checkthis"/></td>
-                <td align="center">
-                    <a className="btn btn-default" onClick={() => this.setState({ isEditVisible: true}) }>
-                        <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                    </a>
-                    &nbsp;
-                    <a className="btn btn-danger" onClick={() => this.deleteGoal(id) }>
-                        <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </a>
-                </td>
-                <td>{title}</td>
-                <td>{email}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>
-                    { this.state.isEditVisible ? <EditGoal goal={this.props.goal} title={this.state.title} updateGoal={this.updateGoal} editTitle={this.editTitle} /> : null }
-                </td>
-                <td></td>
-            </tr>
-            </tbody>
+            <li>
+                <time className="cbp_tmtime" datetime=""><span>{myDate.getDate() + "-" + (myDate.getMonth() + 1) + "-" +  myDate.getFullYear()}</span> <span>{myDate.getFullYear()}</span></time>
+                <i className="cbp_tmicon rounded-x hidden-xs"></i>
+                <div className="cbp_tmlabel">
+                    <h2>{title}</h2>
+                    <div className="row">
+                        <div className="col-md-4">
+                            <img className="img-responsive" src="assets/img/main/img18.jpg" alt="" />
+                            <div className="md-margin-bottom-20"></div>
+                        </div>
+                        <div className="col-md-8">
+                            <p>Winter purslane courgette pumpkin quandong komatsuna fennel green bean cucumber watercress. Pea sprouts wattle seed rutabaga okra yarrow cress avocado grape.</p>
+                            <p>Cabbage lentil cucumber chickpea sorrel gram garbanzo plantain lotus root bok choy squash cress potato.</p>
+                        </div>
+                    </div>
+                    <div className={"row"}>
+                        <div className="col-md-4">
+                            <a className="btn btn-default" onClick={() => this.setState({ isEditVisible: true}) }>
+                                <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            </a>
+                            &nbsp;
+                            <a className="btn btn-danger" onClick={() => this.deleteGoal(id) }>
+                                <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                            </a>
+                        </div>
+                        <div className="col-md-8">
+                            { this.state.isEditVisible ? <EditGoal goal={this.props.goal} title_value={this.state.title} updateGoal={this.updateGoal} editTitle={this.editTitle} /> : null }
+                        </div>
+                    </div>
+                </div>
+            </li>
         )
     }
 }

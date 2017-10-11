@@ -15,6 +15,7 @@ export function setGoals(goal) {
         type: SET_GOALS,
         goal
     }
+    console.log('setGoals action', action);
     return action;
 }
 

@@ -4,7 +4,8 @@ import {logUser, setCurrentUser} from "../actions/index";
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import '../sign_in_out.css'
-
+import Header from './Header'
+import Footer from './Footer'
 class SignIn extends Component {
     constructor(props) {
         super(props);
@@ -73,6 +74,8 @@ class SignIn extends Component {
 
     render() {
         return (
+            <div>
+                <Header current_user={this.props.current_user}/>
             <div className="container">
                 <div className="row main">
                     <div className="main-login main-center">
@@ -116,6 +119,8 @@ class SignIn extends Component {
                         <div><Link className={"signup"} to={'/signup'}>Sign up instead</Link></div>
                     </div>
                 </div>
+            </div>
+                <Footer/>
             </div>
         )
     }

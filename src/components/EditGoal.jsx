@@ -7,7 +7,7 @@ class EditGoal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            title_value: ''
+            title: this.props.title_value
         }
     }
 
@@ -23,7 +23,7 @@ class EditGoal extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            value={this.props.title}
+                            value={this.props.title_value}
                             onChange={event => this.props.editTitle(event.target.value)}
                         />
                     </div>

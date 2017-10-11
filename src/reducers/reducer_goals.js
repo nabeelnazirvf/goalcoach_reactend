@@ -25,8 +25,9 @@ export default (all_goals = [], action) => {
         case SET_GOALS:
             console.log('reducer action',action);
             let goal = action.goal;
-            all_goals.push(goal);
+            all_goals.unshift(goal);
             all_goals = all_goals.slice();
+            console.log('all Goals reducer', all_goals);
             return all_goals;
         case UPDATE_GOAL:
             all_goals.forEach((userGoal) => {

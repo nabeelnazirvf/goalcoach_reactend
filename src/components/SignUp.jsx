@@ -3,7 +3,8 @@ import { Link } from 'react-router';
 import {logUser} from "../actions/index";
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-
+import Header from './Header'
+import Footer from './Footer'
 class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -75,6 +76,8 @@ class SignUp extends Component {
 
     render(){
         return(
+            <div>
+                <Header current_user={null}/>
             <div className="container">
                 <div className="row main">
                     <div className="main-login main-center">
@@ -118,6 +121,8 @@ class SignUp extends Component {
                         <div><Link className={"signup"} to={'/signin'}>Already a user? Sign in instead</Link></div>
                     </div>
                 </div>
+            </div>
+                <Footer/>
             </div>
         )
     }

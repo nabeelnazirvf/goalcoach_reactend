@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -10,16 +10,14 @@ import App from './components/App';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import UserProfile from './components/UserProfile';
-//import faye from "faye";
 const store = createStore(reducer);
 
-console.log('INDEX');
 ReactDOM.render(
     <Provider store={store}>
         <Router path="/" history={browserHistory}>
             <Route path="/app" component={App} />
             <Route path="/signin" component={SignIn} />
-                <Route path="/signup" component={SignUp} />
+            <Route path="/signup" component={SignUp} />
             <Route path="/update-profile" component={UserProfile} />
         </Router>
     </Provider>,
