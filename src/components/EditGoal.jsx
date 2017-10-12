@@ -25,7 +25,7 @@ class EditGoal extends Component {
                             onChange={event => this.title = event.target.value}
                         />
                     </div>
-                    <button onClick={() => this.props.updateGoal(id,email, this.title)} type={"button"} className={"btn btn-success"}>Update</button>
+                    <button onClick={() => this.props.updateGoal(id,email, this.title, this.props.current_user.id)} type={"button"} className={"btn btn-success"}>Update</button>
                 </form>
             </div>
         )
@@ -34,7 +34,8 @@ class EditGoal extends Component {
 
 function mapStateToProps(state) {
     return {
-        goals: state.goals
+        goals: state.goals,
+        current_user: state.current_user
     }
 }
 

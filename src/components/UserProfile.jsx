@@ -36,7 +36,7 @@ class UserProfile extends Component {
             if (res.ok) {
                 res.json().then((json) => {
                     window.localStorage.removeItem('currentUser');
-                    var currentUser = { 'name': json.name, 'email': json.email, 'image_base': json.image_base};
+                    var currentUser = { 'id': json.id, 'name': json.name, 'email': json.email, 'image_base': json.image_base};
                     window.localStorage.setItem('currentUser', JSON.stringify(currentUser));
                     that.props.setCurrentUser(json);
                 });
@@ -78,7 +78,7 @@ class UserProfile extends Component {
                     if (res.ok) {
                         res.json().then((json) => {
                             window.localStorage.removeItem('currentUser');
-                            var currentUser = { 'name': json.name, 'email': json.email, 'image_base': json.image_base};
+                            var currentUser = { 'id': json.id, 'name': json.name, 'email': json.email, 'image_base': json.image_base};
                             window.localStorage.setItem('currentUser', JSON.stringify(currentUser));
                             that.props.setCurrentUser(json);
                             $('.loading').addClass('hidden');

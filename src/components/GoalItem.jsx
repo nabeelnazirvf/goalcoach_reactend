@@ -29,7 +29,7 @@ class GoalItem extends Component {
         this.setState({title: text});
     }
 
-    deleteGoal(id){
+    deleteGoal(id, user_id){
         fetch("http://localhost:3001/goals/"+id+".json", {
             method: "DELETE",
             headers: {
@@ -38,7 +38,7 @@ class GoalItem extends Component {
             },
             mode: 'cors',
             cache: 'default',
-            body: JSON.stringify({goal_id: id})
+            body: JSON.stringify({goal_id: id, user_id: user_id})
         }).catch((error) => {
             this.setState({error});
             console.log("Fail zone");
@@ -54,7 +54,7 @@ class GoalItem extends Component {
         });
     }
 
-    updateGoal(id,email, title){
+    updateGoal(id,email, title, user_id){
 
         fetch("http://localhost:3001/goals/"+id+".json", {
             method: "PUT",
@@ -64,7 +64,7 @@ class GoalItem extends Component {
             },
             mode: 'cors',
             cache: 'default',
-            body: JSON.stringify({title: title, goal_id: id})
+            body: JSON.stringify({title: title, goal_id: id, user_id: user_id})
         }).catch((error) => {
             this.setState({error});
             console.log("Fail zone");
@@ -108,7 +108,7 @@ class GoalItem extends Component {
                                 <span className="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                             </a>
                             &nbsp;
-                            <a className="btn btn-danger" onClick={() => this.deleteGoal(id) }>
+                            <a className="btn btn-danger" onClick={() => this.deleteGoal(id, this.props.user_id) }>
                                 <span className="glyphicon glyphicon-trash" aria-hidden="true"></span>
                             </a>
                         </div>

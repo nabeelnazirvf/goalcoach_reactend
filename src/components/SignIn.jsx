@@ -53,7 +53,7 @@ class SignIn extends Component {
                     }).then((res) => {
                         if (res.ok) {
                             res.json().then((json) => {
-                                var currentUser = { 'name': json.name, 'email': json.email, 'image_base': json.image_base};
+                                var currentUser = { 'id': json.id, 'name': json.name, 'email': json.email, 'image_base': json.image_base};
                                 window.localStorage.setItem('currentUser', JSON.stringify(currentUser));
                             });
 

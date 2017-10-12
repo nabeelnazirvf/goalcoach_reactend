@@ -13,7 +13,7 @@ class AddGoal extends Component {
         this.state = {
             title: ''
         }
-        this.appendGoalItem = this.appendGoalItem.bind(this);
+        //this.appendGoalItem = this.appendGoalItem.bind(this);
     }
 
     componentDidMount(){
@@ -44,6 +44,7 @@ class AddGoal extends Component {
     addGoal() {
         const { title } = this.state;
         const { email } = this.props.current_user.email;
+        let user_id = this.props.current_user.id? this.props.current_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
         fetch("http://localhost:3001/goals.json", {
             method: "POST",
             headers: {
@@ -52,7 +53,7 @@ class AddGoal extends Component {
             },
             mode: 'cors',
             cache: 'default',
-            body: JSON.stringify({email: email, title: title})
+            body: JSON.stringify({email: email, title: title, user_id: user_id})
         }).catch((error) => {
             this.setState({error});
             console.log("Fail zone");
