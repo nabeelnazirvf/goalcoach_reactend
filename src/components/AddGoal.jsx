@@ -21,7 +21,6 @@ class AddGoal extends Component {
         $(function() {
             console.log('request AIIII componentDidMount');
             client.subscribe("/messages/new", function(data) {
-                alert(data);
                 var newData = data.split(',');
                 var title = newData[0];
                 var email = newData[1];
@@ -38,7 +37,6 @@ class AddGoal extends Component {
     }
 
     appendGoalItem(title, email, id, created_at) {
-        console.log('appendGoalItem data ', title, email, id);
         this.props.setGoals({title: title, email: email, id: id, created_at: created_at});
         //<GoalItem key={"abc"} goal={this.props.goals[0]} user={this.props.user} />
     }

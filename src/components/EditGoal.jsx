@@ -6,9 +6,7 @@ class EditGoal extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            title: this.props.title_value
-        }
+        this.title = this.props.goal.title;
     }
 
 
@@ -23,11 +21,11 @@ class EditGoal extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            value={this.props.title_value}
-                            onChange={event => this.props.editTitle(event.target.value)}
+                            defaultValue={this.title}
+                            onChange={event => this.title = event.target.value}
                         />
                     </div>
-                    <button onClick={() => this.props.updateGoal(id,email, this.props.title)} type={"button"} className={"btn btn-success"}>Update</button>
+                    <button onClick={() => this.props.updateGoal(id,email, this.title)} type={"button"} className={"btn btn-success"}>Update</button>
                 </form>
             </div>
         )
