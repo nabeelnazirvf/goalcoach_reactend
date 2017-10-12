@@ -1,4 +1,4 @@
-import {SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL, LOAD_GOALS, SET_CURRENT_USER} from '../constants';
+import {SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL, LOAD_GOALS, SET_CURRENT_USER, SET_NOTIFICATIONS} from '../constants';
 
 
 export function logUser(email) {
@@ -65,6 +65,15 @@ export const setCurrentUser = (current_user) => {
     const action = {
         type: SET_CURRENT_USER,
         current_user
+    }
+    return action;
+}
+
+
+export function setNotifications(notifications) {
+    const action = {
+        type: SET_NOTIFICATIONS,
+        notifications
     }
     return action;
 }

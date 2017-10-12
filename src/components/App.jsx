@@ -3,16 +3,38 @@ import { connect } from 'react-redux';
 import { firebaseApp } from '../firebase';
 import AddGoal from './AddGoal';
 import GoalList from './GoalList';
+import Notification from './Notification';
 import CompleteGoalList from './CompleteGoalList';
-import {setCurrentUser, setUserEmail} from "../actions/index";
+import {setCurrentUser, setUserEmail, setNotifications} from "../actions/index";
 import {Link} from 'react-router';
 import { browserHistory } from 'react-router';
-import Header from './Header'
-import Footer from './Footer'
+import Header from './Header';
+import Footer from './Footer';
+
 class App extends Component {
-    componentDidMount() {
+    componentWillMount() {
         console.log('componentDidMount in APP', JSON.parse(window.localStorage.getItem('currentUser')));
         this.props.setCurrentUser(JSON.parse(window.localStorage.getItem('currentUser')));
+        fetch("http://localhost:3001/goals_notifications.json", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': window.localStorage.getItem('access_token')
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: undefined
+        }).catch((error) => {
+        }).then((res) => {
+            if (res.ok) {
+                res.json().then((json) => {
+                    this.props.setNotifications(json);
+                });
+
+            } else {
+                browserHistory.replace('/signin');
+            }
+        });
     }
 
     render(){
@@ -40,48 +62,16 @@ class App extends Component {
                             <a href="#"><i className="fa fa-cog pull-right"></i></a>
                         </div>
                         <ul className="list-unstyled mCustomScrollbar margin-bottom-20" data-mcs-theme="minimal-dark">
-                            <li className="notification">
-                                <i className="icon-custom icon-sm rounded-x icon-bg-red icon-line icon-envelope"></i>
-                                <div className="overflow-h">
-                                    <span><strong>Albert Heller</strong> has sent you email.</span>
-                                    <small>Two minutes ago</small>
-                                </div>
-                            </li>
-                            <li className="notification">
-                                <img className="rounded-x" src="assets/img/testimonials/img6.jpg" alt="" />
-                                <div className="overflow-h">
-                                    <span><strong>Taylor Lee</strong> started following you.</span>
-                                    <small>Today 18:25 pm</small>
-                                </div>
-                            </li>
-                            <li className="notification">
-                                <i className="icon-custom icon-sm rounded-x icon-bg-yellow icon-line fa fa-bolt"></i>
-                                <div className="overflow-h">
-                                    <span><strong>Natasha Kolnikova</strong> accepted your invitation.</span>
-                                    <small>Yesterday 1:07 pm</small>
-                                </div>
-                            </li>
-                            <li className="notification">
-                                <img className="rounded-x" src="assets/img/testimonials/img1.jpg" alt="" />
-                                <div className="overflow-h">
-                                    <span><strong>Mikel Andrews</strong> commented on your Timeline.</span>
-                                    <small>23/12 11:01 am</small>
-                                </div>
-                            </li>
-                            <li className="notification">
-                                <i className="icon-custom icon-sm rounded-x icon-bg-blue icon-line fa fa-comments"></i>
-                                <div className="overflow-h">
-                                    <span><strong>Bruno Js.</strong> added you to group chating.</span>
-                                    <small>Yesterday 1:07 pm</small>
-                                </div>
-                            </li>
-                            <li className="notification">
-                                <img className="rounded-x" src="assets/img/testimonials/img6.jpg" alt="" />
-                                <div className="overflow-h">
-                                    <span><strong>Taylor Lee</strong> changed profile picture.</span>
-                                    <small>23/12 15:15 pm</small>
-                                </div>
-                            </li>
+                            {
+                                this.props.all_notifications.length > 0 ?
+                                    this.props.all_notifications.map((notification, index) => {
+                                        return (
+                                            <Notification notification={notification}/>
+                                        )
+                                    })
+                                :   console.log('length')
+                            }
+                            <Notification/>
                         </ul>
                         <button type="button" className="btn-u btn-u-default btn-u-sm btn-block">Load More</button>
                             <div className="panel-heading-v2 overflow-h">
@@ -145,7 +135,7 @@ class App extends Component {
                     <div className="col-md-9">
                         <div className="profile-body">
                             {/*<!--Timeline-->*/}
-                            <AddGoal />
+                            <AddGoal user_id={this.props.current_user.user_id}/>
                             <GoalList emaill={this.props.email}/>
                             {/*<!--End Timeline-->*/}
                         </div>
@@ -165,9 +155,11 @@ function mapStateToProps(state) {
     console.log('mapStateToProps in APP', state);
     const { user } = state;
     const { current_user } = state;
+    const { all_notifications } = state;
     return {
-        current_user
+        current_user,
+        all_notifications
     }
 }
 
-export default connect(mapStateToProps, { setCurrentUser })(App);
+export default connect(mapStateToProps, { setCurrentUser, setNotifications})(App);
