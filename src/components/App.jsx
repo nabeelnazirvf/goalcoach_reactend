@@ -67,7 +67,7 @@ class App extends Component {
         let image_url = '';
         image_url = this.props.current_user.image_base ? this.props.current_user.image_base : 'assets/img/team/img32-md.jpg'
         return (
-            <div>
+            <div className={"wrapper"}>
                 <Header current_user={this.props.current_user}/>
                 <div className="container content profile">
                 <div className="row">

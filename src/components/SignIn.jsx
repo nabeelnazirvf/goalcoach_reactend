@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import {logUser, setCurrentUser} from "../actions/index";
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import '../sign_in_out.css'
 import Header from './Header'
 import Footer from './Footer'
 class SignIn extends Component {
@@ -74,54 +73,59 @@ class SignIn extends Component {
 
     render() {
         return (
-            <div>
-                <Header current_user={this.props.current_user}/>
             <div className="container">
-                <div className="row main">
-                    <div className="main-login main-center">
-                        <h5 className={"text-center"}>Sign In</h5>
-                        <div className="form-group">
-                            <label for="email" className="cols-sm-2 control-label">Your Email</label>
-                            <div className="cols-sm-10">
-                                <div className="input-group">
-                                    <span className="input-group-addon"><i className="fa fa-envelope fa" aria-hidden="true"></i></span>
-                                    <input
-                                        className="form-control"
-                                        type="text"
-                                        style={{marginRight: '5px'}}
-                                        placeholder="Enter your Email"
-                                        onChange={event => this.setState({email: event.target.value})}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                {/*<!--Reg Block-->*/}
+                <div className="reg-block">
+                    <div className="reg-block-header">
+                        <h2>Sign Up</h2>
+                        <ul className="social-icons text-center">
+                            <li><a className="rounded-x social_facebook" data-original-title="Facebook" href="#"></a></li>
+                            <li><a className="rounded-x social_twitter" data-original-title="Twitter" href="#"></a></li>
+                            <li><a className="rounded-x social_googleplus" data-original-title="Google Plus" href="#"></a></li>
+                            <li><a className="rounded-x social_linkedin" data-original-title="Linkedin" href="#"></a></li>
+                        </ul>
+                        <p>Don't Have Account? Click
+                            <Link className={"color-green"} to={'/signup'}> Sign Up</Link>
+                        </p>
+                    </div>
 
-                        <div className="form-group">
-                            <label for="password" className="cols-sm-2 control-label">Password</label>
-                            <div className="cols-sm-10">
-                                <div className="input-group">
-                                    <span className="input-group-addon"><i className="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                                    <input
-                                        className="form-control"
-                                        type="password"
-                                        style={{marginRight: '5px'}}
-                                        placeholder="Enter your Password"
-                                        onChange={event => this.setState({password: event.target.value})}
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                    <div className="input-group margin-bottom-20">
+                        <span className="input-group-addon"><i className="fa fa-envelope"></i></span>
+                        <input
+                            className="form-control"
+                            type="text"
+                            style={{marginRight: '5px'}}
+                            placeholder="Enter your Email"
+                            onChange={event => this.setState({email: event.target.value})}
+                        />
+                    </div>
+                    <div className="input-group margin-bottom-20">
+                        <span className="input-group-addon"><i className="fa fa-lock"></i></span>
+                        <input
+                            className="form-control"
+                            type="password"
+                            style={{marginRight: '5px'}}
+                            placeholder="Enter your Password"
+                            onChange={event => this.setState({password: event.target.value})}
+                        />
+                    </div>
+                    <hr/>
+                    <div className="checkbox">
+                        <label>
+                            <input type="checkbox" />
+                            I read <a target="_blank" href="page_terms.html">Terms and Conditions</a>
+                        </label>
+                    </div>
 
-                        <div className="form-group ">
-                            <a  onClick={() => this.signIn()} type="button" id="button" className="btn btn-primary btn-lg btn-block login-button">SignIn</a>
+                    <div className="row">
+                        <div className="col-md-10 col-md-offset-1">
+                            <button onClick={() => this.signIn()} className="btn-u btn-block">Log In</button>
                         </div>
-                        <div>{this.state.error.message}</div>
-                        <div><Link className={"signup"} to={'/signup'}>Sign up instead</Link></div>
                     </div>
                 </div>
+                {/*<!--End Reg Block-->*/}
             </div>
-                <Footer/>
-            </div>
+
         )
     }
 }
