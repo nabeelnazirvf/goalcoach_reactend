@@ -8,7 +8,9 @@
   "dependencies": {
     "base64-img": "^1.0.3",
     "firebase": "^3.6.5",
+    "malihu-custom-scrollbar-plugin": "^3.1.5",
     "react": "^15.4.2",
+    "react-custom-scrollbars": "^4.1.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "react-router": "^3.0.1",

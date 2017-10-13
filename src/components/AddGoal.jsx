@@ -4,8 +4,6 @@ import { setGoals, setCurrentUser } from "../actions/index";
 import { browserHistory } from 'react-router';
 import $ from "jquery";
 import GoalItem from './GoalItem';
-var faye = require('faye');
-var client = new faye.Client('http://localhost:9292/faye');
 
 class AddGoal extends Component {
     constructor(props) {
@@ -13,32 +11,6 @@ class AddGoal extends Component {
         this.state = {
             title: ''
         }
-        //this.appendGoalItem = this.appendGoalItem.bind(this);
-    }
-
-    componentDidMount(){
-        var that = this;
-        $(function() {
-            console.log('request AIIII componentDidMount');
-            client.subscribe("/messages/new", function(data) {
-                var newData = data.split(',');
-                var title = newData[0];
-                var email = newData[1];
-                var id = newData[2];
-                var created_at = newData[3];
-                that.appendGoalItem(title, email, id, created_at);
-                //alert(data);
-            });
-        });
-    }
-
-    componentWillUnmount() {
-        client.unsubscribe("/messages/new")
-    }
-
-    appendGoalItem(title, email, id, created_at) {
-        this.props.setGoals({title: title, email: email, id: id, created_at: created_at});
-        //<GoalItem key={"abc"} goal={this.props.goals[0]} user={this.props.user} />
     }
 
     addGoal() {
@@ -61,7 +33,7 @@ class AddGoal extends Component {
             if (res.ok) {
                 res.json().then((json) => {
                     console.log('this.props in ok of fetch', this.props, json);
-                    //this.props.setGoals(json);
+                    this.props.setGoals(json);
                     $('#add-goal-modal-close').click();
                 });
                 console.log('res', res);

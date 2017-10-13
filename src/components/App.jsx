@@ -5,15 +5,21 @@ import AddGoal from './AddGoal';
 import GoalList from './GoalList';
 import Notification from './Notification';
 import CompleteGoalList from './CompleteGoalList';
-import {setCurrentUser, setUserEmail, setNotifications} from "../actions/index";
+import {setCurrentUser, setUserEmail, setNotifications, setNotification} from "../actions/index";
 import {Link} from 'react-router';
 import { browserHistory } from 'react-router';
 import Header from './Header';
 import Footer from './Footer';
+import $ from "jquery";
+
+var faye = require('faye');
+var client = new faye.Client('http://localhost:9292/faye');
+//var mCustomScrollbar = require('malihu-custom-scrollbar-plugin');
+import { Scrollbars } from 'react-custom-scrollbars';
 
 class App extends Component {
     componentWillMount() {
-        console.log('componentDidMount in APP', JSON.parse(window.localStorage.getItem('currentUser')));
+        console.log('componentWillMount in APP', JSON.parse(window.localStorage.getItem('currentUser')));
         this.props.setCurrentUser(JSON.parse(window.localStorage.getItem('currentUser')));
         fetch("http://localhost:3001/goals_notifications.json", {
             method: "GET",
@@ -35,6 +41,26 @@ class App extends Component {
                 browserHistory.replace('/signin');
             }
         });
+    }
+
+
+    componentDidMount(){
+        console.log('componentDidMount in APP');
+        var that = this;
+        $(function() {
+            console.log('request AIIII componentDidMount');
+            client.subscribe("/goal_notification", function(data) {
+                that.appendGoalNotification(data);
+            });
+        });
+    }
+
+    componentWillUnmount() {
+        client.unsubscribe("/goal_notification");
+    }
+
+    appendGoalNotification(data) {
+        this.props.setNotification(data);
     }
 
     render(){
@@ -61,18 +87,20 @@ class App extends Component {
                             <h2 className="heading-xs pull-left"><i className="fa fa-bell-o"></i> Notifications</h2>
                             <a href="#"><i className="fa fa-cog pull-right"></i></a>
                         </div>
-                        <ul className="list-unstyled mCustomScrollbar margin-bottom-20" data-mcs-theme="minimal-dark">
-                            {
-                                this.props.all_notifications.length > 0 ?
-                                    this.props.all_notifications.map((notification, index) => {
-                                        return (
-                                            <Notification notification={notification}/>
-                                        )
-                                    })
-                                :   console.log('length')
-                            }
-                            <Notification/>
-                        </ul>
+                        <Scrollbars style={{ height: 300 }}>
+                            <ul className="list-unstyled margin-bottom-20" >
+                                {
+                                    this.props.all_notifications.length > 0 ?
+                                        this.props.all_notifications.map((notification, index) => {
+                                            return (
+                                                <Notification notification={notification}/>
+                                            )
+                                        })
+                                        :   console.log('length')
+                                }
+                                <Notification/>
+                            </ul>
+                        </Scrollbars>
                         <button type="button" className="btn-u btn-u-default btn-u-sm btn-block">Load More</button>
                             <div className="panel-heading-v2 overflow-h">
                                 <br/>
@@ -162,4 +190,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { setCurrentUser, setNotifications})(App);
+export default connect(mapStateToProps, { setCurrentUser, setNotifications, setNotification})(App);

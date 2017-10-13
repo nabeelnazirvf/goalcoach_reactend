@@ -9,3 +9,4 @@ export const UPDATE_GOAL = 'UPDATE_GOAL';
 export const DELETE_GOAL = 'DELETE_GOAL';
 export const LOAD_GOALS = 'LOAD_GOALS';
 export const SET_NOTIFICATIONS = 'SET_NOTIFICATIONS';
+export const SET_NOTIFICATION = 'SET_NOTIFICATION';
