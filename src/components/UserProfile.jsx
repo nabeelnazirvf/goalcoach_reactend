@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { setCurrentUser } from "../actions/index";
 import $ from "jquery";
 import '../user_profile.css'
+import Header from './Header';
+import Footer from './Footer';
 
 class UserProfile extends Component {
 
@@ -49,6 +51,7 @@ class UserProfile extends Component {
 
 
     uploadImage(event, id, email){
+        //this.parentNode.nextSibling.value = this.value;
         $('.loading').removeClass('hidden');
         var that = this;
         var uploader = document.getElementById('uploader');
@@ -95,116 +98,202 @@ class UserProfile extends Component {
         let image_url = '';
         image_url = this.props.current_user.image_base ? this.props.current_user.image_base : 'http://itsworldcongress2017.org/wp-content/plugins/all-in-one-seo-pack/images/default-user-image.png'
         return (
-            <div className="container">
-                <br/>
-                    <br/>
-                        <div className="row" id="main">
-                            <div className="col-md-4 well" id="leftPanel">
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <div>
-                                            <img src={image_url} className="img-circle img-thumbnail"/>
-                                                <h2>{this.props.current_user.name}</h2>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                    tempor incididunt ut labore et dolore magna aliqua.</p>
-                                                <div className="btn-group">
-                                                    <button type="button" className="btn btn-warning">
-                                                        Social</button>
-                                                    <button type="button" className="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                                                        <span className="caret"></span><span className="sr-only">Social</span>
-                                                    </button>
-                                                    <ul className="dropdown-menu" role="menu">
-                                                        <li><a href="#">Twitter</a></li>
-                                                        <li><a href="https://plus.google.com/+Jquery2dotnet/posts">Google +</a></li>
-                                                        <li><a href="https://www.facebook.com/jquery2dotnet">Facebook</a></li>
-                                                        <li className="divider"></li>
-                                                        <li><a href="#">Github</a></li>
-                                                    </ul>
-                                                </div>
-                                        </div>
-                                    </div>
+            // <!--=== Profile ===-->
+            <div>
+                <Header current_user={this.props.current_user}/>
+            <div className={"wrapper"}>
+            <div className="container content profile">
+                <div className="row">
+                    {/*<!--Left Sidebar-->*/}
+                    <div className="col-md-3 md-margin-bottom-40">
+                        <img className="img-responsive profile-img margin-bottom-20" src={image_url} alt="" />
+                            <hr/>
+                                {/*<!--Notification-->*/}
+                                <div className="panel-heading-v2 overflow-h">
+                                    <h2 className="heading-xs pull-left"><i className="fa fa-bell-o"></i> Notification</h2>
+                                    <a href="#"><i className="fa fa-cog pull-right"></i></a>
                                 </div>
-                            </div>
-                            <div className="col-md-8 well" id="rightPanel">
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <form role="form">
-                                            <h2>Edit your profile.<small>It's always easy</small></h2>
-                                            <hr className="colorgraph" />
-                                                <div className="row">
-                                                    <div className="col-xs-12 col-sm-6 col-md-6">
-                                                        <div className="form-group">
+                                <ul className="list-unstyled mCustomScrollbar margin-bottom-20" data-mcs-theme="minimal-dark">
+                                    <li className="notification">
+                                        <i className="icon-custom icon-sm rounded-x icon-bg-red icon-line icon-envelope"></i>
+                                        <div className="overflow-h">
+                                            <span><strong>Albert Heller</strong> has sent you email.</span>
+                                            <small>Two minutes ago</small>
+                                        </div>
+                                    </li>
+                                    <li className="notification">
+                                        <img className="rounded-x" src="assets/img/testimonials/img6.jpg" alt="" />
+                                            <div className="overflow-h">
+                                                <span><strong>Taylor Lee</strong> started following you.</span>
+                                                <small>Today 18:25 pm</small>
+                                            </div>
+                                    </li>
+                                    <li className="notification">
+                                        <i className="icon-custom icon-sm rounded-x icon-bg-yellow icon-line fa fa-bolt"></i>
+                                        <div className="overflow-h">
+                                            <span><strong>Natasha Kolnikova</strong> accepted your invitation.</span>
+                                            <small>Yesterday 1:07 pm</small>
+                                        </div>
+                                    </li>
+                                    <li className="notification">
+                                        <img className="rounded-x" src="assets/img/testimonials/img1.jpg" alt="" />
+                                            <div className="overflow-h">
+                                                <span><strong>Mikel Andrews</strong> commented on your Timeline.</span>
+                                                <small>23/12 11:01 am</small>
+                                            </div>
+                                    </li>
+                                    <li className="notification">
+                                        <i className="icon-custom icon-sm rounded-x icon-bg-blue icon-line fa fa-comments"></i>
+                                        <div className="overflow-h">
+                                            <span><strong>Bruno Js.</strong> added you to group chating.</span>
+                                            <small>Yesterday 1:07 pm</small>
+                                        </div>
+                                    </li>
+                                    <li className="notification">
+                                        <img className="rounded-x" src="assets/img/testimonials/img6.jpg" alt="" />
+                                            <div className="overflow-h">
+                                                <span><strong>Taylor Lee</strong> changed profile picture.</span>
+                                                <small>23/12 15:15 pm</small>
+                                            </div>
+                                    </li>
+                                </ul>
+                                <button type="button" className="btn-u btn-u-default btn-u-sm btn-block">Load More</button>
+                                {/*<!--End Notification-->*/}
+                        <ul className="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
+                            <li className="list-group-item">
+                                <a href="page_profile.html"><i className="fa fa-bar-chart-o"></i> Overall</a>
+                            </li>
+                            <li className="list-group-item">
+                                <a href="page_profile_me.html"><i className="fa fa-user"></i> Profile</a>
+                            </li>
+                            <li className="list-group-item">
+                                <a href="page_profile_users.html"><i className="fa fa-group"></i> Users</a>
+                            </li>
+                            <li className="list-group-item">
+                                <a href="page_profile_projects.html"><i className="fa fa-cubes"></i> My Projects</a>
+                            </li>
+                            <li className="list-group-item">
+                                <a href="page_profile_comments.html"><i className="fa fa-comments"></i> Comments</a>
+                            </li>
+                            <li className="list-group-item">
+                                <a href="page_profile_history.html"><i className="fa fa-history"></i> History</a>
+                            </li>
+                            <li className="list-group-item active">
+                                <a href="page_profile_settings.html"><i className="fa fa-cog"></i> Settings</a>
+                            </li>
+                        </ul>
+
+                                <div className="margin-bottom-50"></div>
+
+                                {/*<!--Datepicker-->*/}
+                                <form action="#" id="sky-form2" className="sky-form">
+                                    <div id="inline-start"></div>
+                                </form>
+                        {/*<!--End Datepicker-->*/}
+                    </div>
+                    {/*<!--End Left Sidebar-->*/}
+
+                    {/*<!-- Profile Content -->*/}
+                    <div className="col-md-9">
+                        <div className="profile-body margin-bottom-20">
+                            <div className="tab-v1">
+                                <ul className="nav nav-justified nav-tabs">
+                                    <li className="active"><a data-toggle="tab" href="#profile">Edit Profile</a></li>
+                                    <li><a data-toggle="tab" href="#passwordTab">Change Password</a></li>
+                                    <li><a data-toggle="tab" href="#payment">Payment Options</a></li>
+                                    <li><a data-toggle="tab" href="#settings">Notification Settings</a></li>
+                                </ul>
+                                <div className="tab-content">
+                                    <div id="profile" className="profile-edit tab-pane fade active in">
+                                        <h2 className="heading-md">Manage your Security Settings</h2>
+                                        <p>Change your password.</p>
+                                        <br/>
+                                        <form className="sky-form" id="sky-form4" action="#">
+                                            <dl className="dl-horizontal">
+                                                <dt>Username</dt>
+                                                <dd>
+                                                    <section>
+                                                        <label className="input">
+                                                            <i className="icon-append fa fa-user"></i>
                                                             <input
-                                                                type="text" name="first_name" id="first_name" className="form-control input-lg" placeholder="First Name" tabindex="1"
+                                                                type="text" placeholder="Username" name="username"
                                                                 value={this.state.displayName}
                                                                 onChange ={event => this.setState({displayName: event.target.value})}
                                                             />
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xs-12 col-sm-6 col-md-6">
-                                                        <div className="form-group">
-                                                            <input type="text" name="last_name" id="last_name" className="form-control input-lg" placeholder="Last Name" tabindex="2" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <input type="email" name="email" id="email" className="form-control input-lg" placeholder="Email Address" tabindex="4" />
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-xs-12 col-sm-6 col-md-6">
-                                                        <div className="form-group">
-                                                            <input type="password" name="password" id="password" className="form-control input-lg" placeholder="Password" tabindex="5" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xs-12 col-sm-6 col-md-6">
-                                                        <div className="form-group">
-                                                            <input type="password" name="password_confirmation" id="password_confirmation" className="form-control input-lg" placeholder="Confirm Password" tabindex="6" />
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-xs-12 col-sm-6 col-md-6">
-                                                        <label className="btn btn-primary">
-                                                            Upload Image&hellip; <input type="file" name="fileToUpload" id="fileToUpload" onChange ={(event) => this.uploadImage(event)} className={"hidden"} />
+                                                            <b className="tooltip tooltip-bottom-right">Needed to enter the website</b>
                                                         </label>
-                                                    </div>
-                                                </div>
-                                                <hr className="colorgraph"/>
-                                                <div className="row">
-                                                    <div className="col-xs-12 col-md-6">
-                                                        <Link to={'/app'}>Back to Main Page</Link>
-                                                    </div>
-                                                    <div className="col-xs-12 col-md-6"><a onClick = {() => this.updateUserProfile(this.state.displayName)} className="btn btn-success btn-block btn-lg">Save</a></div>
-                                                    <div className="col-xs-12 col-md-6">
-                                                        <span> {this.state.error} </span>
-                                                    </div>
-                                                </div>
+                                                    </section>
+                                                </dd>
+                                                <dt>Email address</dt>
+                                                <dd>
+                                                    <section>
+                                                        <label className="input">
+                                                            <i className="icon-append fa fa-envelope"></i>
+                                                            <input type="email" placeholder="Email address" name="email"/>
+                                                            <b className="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                                        </label>
+                                                    </section>
+                                                </dd>
+                                                <dt>Enter your password</dt>
+                                                <dd>
+                                                    <section>
+                                                        <label className="input">
+                                                            <i className="icon-append fa fa-lock"></i>
+                                                            <input type="password" id="password" name="password" placeholder="Password"/>
+                                                            <b className="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                                        </label>
+                                                    </section>
+                                                </dd>
+                                                <dt>Confirm Password</dt>
+                                                <dd>
+                                                    <section>
+                                                        <label className="input">
+                                                            <i className="icon-append fa fa-lock"></i>
+                                                            <input type="password" name="passwordConfirm" placeholder="Confirm password"/>
+                                                            <b className="tooltip tooltip-bottom-right">Don't forget your password</b>
+                                                        </label>
+                                                    </section>
+                                                </dd>
+                                                <dd>
+                                                    <section>
+                                                        <label for="file" className="input input-file">
+                                                            <div className="button">
+                                                                Browse
+                                                                <input type="file" name="file" id="fileToUpload" onChange={(event) => this.uploadImage(event)} />
+                                                            </div>
+                                                            <input type="text" placeholder="Include some file" readonly />
+                                                        </label>
+                                                    </section>
+                                                </dd>
+                                            </dl>
+                                            <label className="toggle toggle-change"><input type="checkbox" checked="" name="checkbox-toggle-1"/><i className="no-rounded"></i>Remember password</label>
+                                            <br/>
+                                            <section>
+                                                <label className="checkbox"><input type="checkbox" id="terms" name="terms"/><i></i><a href="#">I agree with the Terms and Conditions</a></label>
+                                            </section>
+                                            <button type="button" className="btn-u btn-u-default">Cancel</button>&nbsp;
+                                            <a onClick = {() => this.updateUserProfile(this.state.displayName)} className="btn-u">Save Changes</a>&nbsp;&nbsp;
+                                            <Link to={'/app'}>Back to Main Page</Link>
                                         </form>
                                     </div>
-                                </div>
-                                <div className="modal fade" id="t_and_c_m" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                    <div className="modal-dialog modal-lg">
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                <h4 className="modal-title" id="myModalLabel">Terms & Conditions</h4>
-                                            </div>
-                                            <div className="modal-body">
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, itaque, modi, aliquam nostrum at sapiente consequuntur natus odio reiciendis perferendis rem nisi tempore possimus ipsa porro delectus quidem dolorem ad.</p>
-                                            </div>
-                                            <div className="modal-footer">
-                                                <button type="button" className="btn btn-primary" data-dismiss="modal">I Agree</button>
-                                            </div>
-                                        </div>
+                                    <div id="passwordTab" className="profile-edit tab-pane fade in active">
+                                    </div>
+                                    <div id="payment" className="profile-edit tab-pane fade">
+                                    </div>
+                                    <div id="settings" className="profile-edit tab-pane fade">
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    {/*<!-- End Profile Content -->*/}
+                </div>
+                {/*<!--/end row-->*/}
             </div>
+            </div>
+                <Footer/>
+            </div>
+        // <!--=== End Profile ===-->
         )
     }
 }
