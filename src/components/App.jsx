@@ -98,7 +98,6 @@ class App extends Component {
                                         })
                                         :   console.log('length')
                                 }
-                                <Notification/>
                             </ul>
                         </Scrollbars>
                         <button type="button" className="btn-u btn-u-default btn-u-sm btn-block">Load More</button>
@@ -162,10 +161,19 @@ class App extends Component {
                     {/*<!-- Profile Content -->*/}
                     <div className="col-md-9">
                         <div className="profile-body">
-                            {/*<!--Timeline-->*/}
-                            <AddGoal user_id={this.props.current_user.user_id}/>
-                            <GoalList emaill={this.props.email}/>
-                            {/*<!--End Timeline-->*/}
+                            <div className="panel panel-profile">
+                                <div className="panel-heading overflow-h">
+                                    <h2 className="panel-title heading-sm pull-left"><i className="fa fa-comments"></i>Goals</h2>
+                                    <a href="#"><i className="fa fa-cog pull-right"></i></a>
+                                </div>
+                                <div className="panel-body margin-bottom-50">
+                                    {/*<!--/end media media v2-->*/}
+                                    <AddGoal user_id={this.props.current_user.user_id}/>
+                                    <GoalList emaill={this.props.email}/>
+                                    {/*<!--/end media media v2-->*/}
+                                    <button type="button" className="btn-u btn-u-default btn-block">Load More</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     {/*<!-- End Profile Content -->*/}

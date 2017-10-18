@@ -34,7 +34,7 @@ class GoalList extends Component {
     render(){
         console.log('this.props.goals in goal list render', this.props.goals);
         return(
-            <ul className="timeline-v2">
+            <div className="">
                 {
                     this.props.goals.map((goal, index) => {
                         return (
@@ -42,7 +42,7 @@ class GoalList extends Component {
                         )
                     })
                 }
-            </ul>
+            </div>
         )
     }
 }

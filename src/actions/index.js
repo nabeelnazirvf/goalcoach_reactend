@@ -1,4 +1,7 @@
-import {SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL, LOAD_GOALS, SET_CURRENT_USER, SET_NOTIFICATIONS,SET_NOTIFICATION } from '../constants';
+import {
+    SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL, LOAD_GOALS, SET_CURRENT_USER,
+    SET_NOTIFICATIONS, SET_NOTIFICATION, SET_COMMENTS
+} from '../constants';
 
 
 export function logUser(email) {
@@ -84,4 +87,10 @@ export function setNotification(notification) {
     }
     return action;
 }
-
+export function setComments(comments) {
+    const action = {
+        type: SET_COMMENTS,
+        comments
+    }
+    return action;
+}
