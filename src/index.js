@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { Router, Route, browserHistory } from 'react-router';
 import { firebaseApp } from './firebase';
@@ -10,7 +10,9 @@ import App from './components/App';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import UserProfile from './components/UserProfile';
-const store = createStore(reducer);
+import ReduxThunk from 'redux-thunk';
+
+const store = createStore(reducer, applyMiddleware(ReduxThunk));
 
 ReactDOM.render(
     <Provider store={store}>

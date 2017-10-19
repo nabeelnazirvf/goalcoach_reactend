@@ -12,7 +12,6 @@ export default (state = user, action) => {
             return user;
         case SET_CURRENT_USER:
             const {current_user} = action;
-            console.log('current_user reducer', current_user);
             return current_user;
         default:
             return state;

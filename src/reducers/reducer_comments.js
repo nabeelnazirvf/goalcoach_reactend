@@ -1,12 +1,15 @@
-import {SET_COMMENTS} from '../constants';
+import {SET_COMMENTS, SET_COMMENT} from '../constants';
 
 export default (goal_comments = [], action) => {
-    let newComments = [];
     switch(action.type) {
         case SET_COMMENTS:
-            const { comments } = action;
-            goal_comments = comments;
-            console.log('goal_comments REDUCER*:', goal_comments);
+            const { data } = action;
+            goal_comments = data;
+            return goal_comments;
+        case SET_COMMENT:
+            const { comment } = action;
+            goal_comments.unshift(comment);
+            goal_comments = goal_comments.slice();
             return goal_comments;
         default:
             return goal_comments;

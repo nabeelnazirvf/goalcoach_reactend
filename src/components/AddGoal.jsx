@@ -28,18 +28,14 @@ class AddGoal extends Component {
             body: JSON.stringify({email: email, title: title, user_id: user_id})
         }).catch((error) => {
             this.setState({error});
-            console.log("Fail zone");
         }).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log('this.props in ok of fetch', this.props, json);
                     this.props.setGoals(json);
                     $('#add-goal-modal-close').click();
                 });
-                console.log('res', res);
 
             } else {
-                console.log("error", res);
                 browserHistory.replace('/signin');
             }
         });
@@ -49,7 +45,7 @@ class AddGoal extends Component {
     render() {
 
         return (
-            <div className="modal fade" id="add-goal-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div className="modal fade" id="add-goal-modal"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -84,7 +80,6 @@ class AddGoal extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('mapStateToProps in add goal', state);
     const { user } = state;
     const { goals } = state;
     const { current_user } = state;

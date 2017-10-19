@@ -6,9 +6,7 @@ import { completeGoalRef } from '../firebase';
 class CompleteGoalList extends Component {
 
     componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps in complete', this.props, nextProps);
         if(this.props.user.email !== nextProps.user.email) {
-            console.log('this.props.user.email', this.props, nextProps, );
             completeGoalRef.orderByChild('email').equalTo(nextProps.user.email).on('value', snap => {
                 //completeGoalRef.on('value', snap => {
                 let completeGoals = [];
@@ -50,7 +48,6 @@ class CompleteGoalList extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('state in complete', state);
     const { completeGoals } = state;
     const { user } = state;
     return {

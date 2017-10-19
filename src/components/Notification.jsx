@@ -3,7 +3,6 @@ import {Link} from 'react-router';
 
 class Notification extends Component {
     render(){
-        console.log('notification', this.props.notification);
         let myDate = '';
         this.props.notification? myDate = new Date(this.props.notification.created_at) : ""
         return (

@@ -32,11 +32,9 @@ class SignUp extends Component {
             })
         }).catch((error) => {
             this.setState({error});
-            console.log("Fail zone");
         }).then((res) => {
             if (res.ok) {
                 res.json().then((json) => {
-                    console.log('json signUp', json, json.access_token);
                     this.props.logUser(email);
                     window.localStorage.setItem('access_token', json.access_token);
                     window.localStorage.setItem('email', email);
@@ -68,8 +66,6 @@ class SignUp extends Component {
                 });
 
             } else {
-                console.log('json signUp failure');
-                console.log("error", res);
             }
         });
     }

@@ -1,11 +1,10 @@
 import {
     SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL, LOAD_GOALS, SET_CURRENT_USER,
-    SET_NOTIFICATIONS, SET_NOTIFICATION, SET_COMMENTS
+    SET_NOTIFICATIONS, SET_NOTIFICATION, SET_COMMENTS, SET_COMMENT
 } from '../constants';
 
 
 export function logUser(email) {
-    console.log('logUser action', email);
     const action = {
         type: SIGNED_IN,
         email
@@ -18,7 +17,6 @@ export function setGoals(goal) {
         type: SET_GOALS,
         goal
     }
-    console.log('setGoals action', action);
     return action;
 }
 
@@ -93,4 +91,38 @@ export function setComments(comments) {
         comments
     }
     return action;
+}
+export function setComment(comment) {
+    const action = {
+        type: SET_COMMENT,
+        comment
+    }
+    return action;
+}
+export function getAllComments(){
+    return (dispatch) => {
+        fetch("http://localhost:3001/comments/all_comments.json", {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': window.localStorage.getItem('access_token')
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: undefined
+        }).catch((error) => {
+        }).then((res) => {
+            if (res.ok) {
+                res.json().then((json) => {
+                    dispatch ({
+                        type: SET_COMMENTS,
+                        data: json
+                    })
+                });
+
+            } else {
+                //browserHistory.replace('/signin');
+            }
+        });
+    }
 }

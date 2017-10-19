@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { goalRef } from '../firebase';
-import { setGoals, loadGoals } from "../actions/index";
+import { setGoals, loadGoals} from "../actions/index";
 import GoalItem from './GoalItem';
 import { browserHistory } from 'react-router';
 class GoalList extends Component {
 
     componentDidMount(){
-        console.log('goal listing componentWillMount', this.props);
         let user_id = this.props.current_user.id? this.props.current_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
         fetch("http://localhost:3001/goals.json?user_id="+user_id, {
             method: "GET",
@@ -32,7 +31,6 @@ class GoalList extends Component {
     }
 
     render(){
-        console.log('this.props.goals in goal list render', this.props.goals);
         return(
             <div className="">
                 {
@@ -52,11 +50,13 @@ function mapStateToProps(state) {
     const { user } = state;
     const { email } = user;
     const { current_user } = state;
+    const { goal_comments } = state;
     return {
         user,
         email,
         goals,
         current_user
+
     }
 }
 

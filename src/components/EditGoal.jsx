@@ -11,7 +11,6 @@ class EditGoal extends Component {
 
 
     render() {
-        console.log('this.props.goal in edit', this.props.goal);
         const { email, title, serverKey, id } = this.props.goal;
         return (
             <div>

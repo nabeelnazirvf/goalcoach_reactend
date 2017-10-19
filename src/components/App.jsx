@@ -19,7 +19,6 @@ import { Scrollbars } from 'react-custom-scrollbars';
 
 class App extends Component {
     componentWillMount() {
-        console.log('componentWillMount in APP', JSON.parse(window.localStorage.getItem('currentUser')));
         this.props.setCurrentUser(JSON.parse(window.localStorage.getItem('currentUser')));
         fetch("http://localhost:3001/goals_notifications.json", {
             method: "GET",
@@ -45,10 +44,8 @@ class App extends Component {
 
 
     componentDidMount(){
-        console.log('componentDidMount in APP');
         var that = this;
         $(function() {
-            console.log('request AIIII componentDidMount');
             client.subscribe("/goal_notification", function(data) {
                 that.appendGoalNotification(data);
             });
@@ -93,10 +90,10 @@ class App extends Component {
                                     this.props.all_notifications.length > 0 ?
                                         this.props.all_notifications.map((notification, index) => {
                                             return (
-                                                <Notification notification={notification}/>
+                                                <Notification key={index} notification={notification}/>
                                             )
                                         })
-                                        :   console.log('length')
+                                        : null
                                 }
                             </ul>
                         </Scrollbars>
@@ -188,7 +185,6 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('mapStateToProps in APP', state);
     const { user } = state;
     const { current_user } = state;
     const { all_notifications } = state;

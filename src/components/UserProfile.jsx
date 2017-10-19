@@ -299,7 +299,6 @@ class UserProfile extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log('mapStateToProps in user profile', state);
     const { current_user } = state;
     return {
         current_user

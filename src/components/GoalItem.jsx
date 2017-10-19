@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { deleteGoal } from "../actions/index";
 import EditGoal from "./EditGoal";
-import { updateGoal, setComments } from "../actions/index";
+import AddComment from "./AddComment";
+import { updateGoal, setComments, getAllComments} from "../actions/index";
 import { browserHistory } from 'react-router';
 import Comment from "./Comment";
 
@@ -16,6 +17,10 @@ class GoalItem extends Component {
         }
         this.updateGoal = this.updateGoal.bind(this);
         this.editTitle = this.editTitle.bind(this);
+    }
+
+    componentWillMount() {
+        this.props.getAllComments();
     }
 
     editTitle(text) {
@@ -57,48 +62,32 @@ class GoalItem extends Component {
             body: JSON.stringify({title: title, goal_id: id, user_id: user_id})
         }).catch((error) => {
             this.setState({error});
-            console.log("Fail zone");
         }).then((res) => {
-            console.log('res', res);
             if (res.ok) {
                 this.props.updateGoal(email, title, id);
                 this.setState({isEditVisible: false});
 
             } else {
-                console.log("error", res);
                 browserHistory.replace('/signin');
             }
         });
     }
 
-    componentWillMount() {
-        fetch("http://localhost:3001/comments.json?goal_id="+this.props.goal.id, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': window.localStorage.getItem('access_token')
-            },
-            mode: 'cors',
-            cache: 'default',
-            body: undefined
-        }).catch((error) => {
-        }).then((res) => {
-            if (res.ok) {
-                res.json().then((json) => {
-                    this.props.setComments(json);
-                });
-
-            } else {
-                browserHistory.replace('/signin');
+    desiredComments(goal_id){
+        let comments = [];
+        this.props.goal_comments.forEach((comment) => {
+            if(comment.goal_id === goal_id) {
+                comments.push(comment);
             }
         });
+        return comments;
     }
-
 
     render() {
         const {title, id, serverKey, created_at } = this.props.goal;
         const { email } = this.props.user;
         var myDate = new Date(created_at);
+        let desired_comments = this.desiredComments(this.props.goal.id);
         return (
             <div className="media media-v2">
                 <a className="pull-left" href="#">
@@ -125,6 +114,7 @@ class GoalItem extends Component {
                                 <i className="expand-list rounded-x fa fa-trash-o" aria-hidden="true"></i>
                             </a>
                         </li>
+                        <li><a href="#" data-toggle="modal" data-goal-id={id} data-target={"#add-comment-modal-"+id}><i className="expand-list rounded-x fa fa-comments "></i></a></li>
                         <li><a href="#"><i className="expand-list rounded-x fa fa-reply"></i></a></li>
                         <li><a href="#"><i className="expand-list rounded-x fa fa-heart"></i></a></li>
                         <li><a href="#"><i className="expand-list rounded-x fa fa-retweet"></i></a></li>
@@ -134,15 +124,14 @@ class GoalItem extends Component {
                     </div>
                     <div className="clearfix"></div>
                     {
-                        this.props.goal_comments.length > 0 ?
-                            this.props.goal_comments.map((comment, index) => {
-                                return (
-                                    <Comment key={index} comment={comment} />
-                                )
-                            })
-                            :   null
+                        desired_comments.map((comment, index) => {
+                            return (
+                                <Comment comment={comment} />
+                            )
+                        })
                     }
                 </div>
+                <AddComment addComment={this.addComment} unique_goal_id={this.props.goal.id} />
             </div>
         )
     }
@@ -157,4 +146,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, { deleteGoal, updateGoal, setComments})(GoalItem);
+export default connect(mapStateToProps, { deleteGoal, updateGoal, setComments, getAllComments})(GoalItem);
