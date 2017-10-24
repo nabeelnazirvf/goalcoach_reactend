@@ -20,7 +20,7 @@ class User extends Component {
 
     componentWillMount() {
         let current_user_id = this.props.current_user.id? this.props.current_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
-        fetch("http://localhost:3001/users/"+this.getQueryStringValue("user_id")+"?current_user_id="+current_user_id, {
+        fetch("http://localhost:3001/users/"+this.getQueryStringValue("user_id"), {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +35,32 @@ class User extends Component {
             if (res.ok) {
                 res.json().then((json) => {
                     this.setState({dataLoaded: true, user: json});
-                    console.log('STATE in user', this.state);
+                });
+
+            } else {
+                browserHistory.replace('/signin');
+            }
+        });
+    }
+
+    followUnfollow(is_following){
+        fetch("http://localhost:3001/users/follow_unfollow", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': window.localStorage.getItem('access_token')
+            },
+            mode: 'cors',
+            cache: 'default',
+            body: JSON.stringify({user_id: this.state.user.id})
+        }).catch((error) => {
+            this.setState({error});
+        }).then((res) => {
+            if (res.ok) {
+                res.json().then((json) => {
+                    let obj = this.state.user;
+                    this.state.user.is_following ? (obj.is_following = false) : (obj.is_following = true);
+                    this.setState({user: obj});
                 });
 
             } else {
@@ -55,8 +80,8 @@ class User extends Component {
                                 <div className="row">
                                     <div className="col-md-3 md-margin-bottom-40">
                                         <img className="img-responsive profile-img margin-bottom-20" src={this.state.user.image_base} alt="" />
-                                        <button className="btn btn-block btn-gmail">Follow</button>
-                                        <button className="btn btn-block btn-gmail">Follow</button>
+                                        <button onClick={() => this.followUnfollow(this.state.user.is_following)} className="btn btn-block btn-gmail">{this.state.user.is_following ? "Unfollow" : "Follow"}</button>
+                                        <br/>
                                         <ul className="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
                                             <li className="list-group-item">
                                                 <a href="page_profile.html"><i className="fa fa-bar-chart-o"></i> Overall</a>
