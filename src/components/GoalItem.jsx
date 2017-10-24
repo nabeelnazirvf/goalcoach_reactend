@@ -91,11 +91,11 @@ class GoalItem extends Component {
         return (
             <div className="media media-v2">
                 <a className="pull-left" href="#">
-                    <img className="media-object rounded-x" src={this.props.current_user.image_base} alt="" />
+                    <img className="media-object rounded-x" src={this.props.desired_user.image_base} alt="" />
                 </a>
                 <div className="media-body">
                     <h4 className="media-heading">
-                        <strong><a href="#">{this.props.current_user.name}</a></strong> {'@' + this.props.current_user.name}
+                        <strong><a href="#">{this.props.desired_user.name}</a></strong> {'@' + this.props.desired_user.name}
                         <small>{created_at}</small>
                     </h4>
                     <p>{title}</p>
@@ -104,23 +104,31 @@ class GoalItem extends Component {
                         <li><a href="#">10 Share</a></li>
                     </ul>
                     <ul className="list-inline pull-right">
-                        <li>
-                            <a className="" onClick={() => this.setState({ isEditVisible: true}) }>
-                                <i className="expand-list rounded-x fa fa-pencil" aria-hidden="true"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a className="" onClick={() => this.deleteGoal(id, this.props.user_id) }>
-                                <i className="expand-list rounded-x fa fa-trash-o" aria-hidden="true"></i>
-                            </a>
-                        </li>
+                        {
+                            this.props.current_user.id === this.props.desired_user.id ?
+                                <li>
+                                    <a className="" onClick={() => this.setState({ isEditVisible: true}) }>
+                                        <i className="expand-list rounded-x fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                            : null
+                        }
+                        {
+                            this.props.current_user.id === this.props.desired_user.id ?
+                                <li>
+                                    <a className="" onClick={() => this.deleteGoal(id, this.props.user_id) }>
+                                        <i className="expand-list rounded-x fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                : null
+                        }
                         <li><a href="#" data-toggle="modal" data-goal-id={id} data-target={"#add-comment-modal-"+id}><i className="expand-list rounded-x fa fa-comments "></i></a></li>
                         <li><a href="#"><i className="expand-list rounded-x fa fa-reply"></i></a></li>
                         <li><a href="#"><i className="expand-list rounded-x fa fa-heart"></i></a></li>
                         <li><a href="#"><i className="expand-list rounded-x fa fa-retweet"></i></a></li>
                     </ul>
                     <div className="col-md-8">
-                        { this.state.isEditVisible ? <EditGoal goal={this.props.goal} title_value={this.state.title} updateGoal={this.updateGoal} editTitle={this.editTitle} /> : null }
+                        { (this.state.isEditVisible && this.props.current_user.id === this.props.desired_user.id) ? <EditGoal goal={this.props.goal} title_value={this.state.title} updateGoal={this.updateGoal} editTitle={this.editTitle}  desired_user={this.props.desired_user} /> : null }
                     </div>
                     <div className="clearfix"></div>
                     {

@@ -3,6 +3,7 @@ class Comment extends Component {
 
     render(){
         const {text, created_at, goal_id} = this.props.comment;
+        console.log('this.props.comment', this.props.comment, this.props.comment.user);
         const {name, image_base} = this.props.comment.user;
         return (
             <div>

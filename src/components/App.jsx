@@ -166,7 +166,7 @@ class App extends Component {
                                 <div className="panel-body margin-bottom-50">
                                     {/*<!--/end media media v2-->*/}
                                     <AddGoal user_id={this.props.current_user.user_id}/>
-                                    <GoalList emaill={this.props.email}/>
+                                    <GoalList emaill={this.props.email}  desired_user={this.props.current_user}/>
                                     {/*<!--/end media media v2-->*/}
                                     <button type="button" className="btn-u btn-u-default btn-block">Load More</button>
                                 </div>

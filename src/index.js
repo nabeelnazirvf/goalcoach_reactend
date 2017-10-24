@@ -10,6 +10,7 @@ import App from './components/App';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import UserProfile from './components/UserProfile';
+import User from './components/User';
 import ReduxThunk from 'redux-thunk';
 
 const store = createStore(reducer, applyMiddleware(ReduxThunk));
@@ -21,6 +22,7 @@ ReactDOM.render(
             <Route path="/signin" component={SignIn} />
             <Route path="/signup" component={SignUp} />
             <Route path="/update-profile" component={UserProfile} />
+            <Route path="/users" component={User} />
         </Router>
     </Provider>,
     document.getElementById('root')

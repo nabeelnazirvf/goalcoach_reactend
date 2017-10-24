@@ -7,7 +7,7 @@ import { browserHistory } from 'react-router';
 class GoalList extends Component {
 
     componentDidMount(){
-        let user_id = this.props.current_user.id? this.props.current_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
+        let user_id = this.props.desired_user.id? this.props.desired_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
         fetch("http://localhost:3001/goals.json?user_id="+user_id, {
             method: "GET",
             headers: {
@@ -36,7 +36,7 @@ class GoalList extends Component {
                 {
                     this.props.goals.map((goal, index) => {
                         return (
-                            <GoalItem key={index} goal={goal} user={this.props.user} user_id={this.props.current_user.id} />
+                            <GoalItem key={index} goal={goal} user={this.props.user} user_id={this.props.desired_user.id}  desired_user={this.props.desired_user}/>
                         )
                     })
                 }
