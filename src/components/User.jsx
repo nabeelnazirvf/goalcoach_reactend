@@ -4,6 +4,7 @@ import Footer from './Footer';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import GoalList from './GoalList';
+import {Link} from 'react-router';
 
 class User extends Component {
     constructor(props) {
@@ -83,6 +84,9 @@ class User extends Component {
                                         <button onClick={() => this.followUnfollow(this.state.user.is_following)} className="btn btn-block btn-gmail">{this.state.user.is_following ? "Unfollow" : "Follow"}</button>
                                         <br/>
                                         <ul className="list-group sidebar-nav-v1 margin-bottom-40" id="sidebar-nav-1">
+                                            <li className="list-group-item">
+                                                <Link to={'/app'}><i className="fa fa-arrow-left" aria-hidden="true"></i>Back to Main Page</Link>
+                                            </li>
                                             <li className="list-group-item">
                                                 <a href="page_profile.html"><i className="fa fa-bar-chart-o"></i> Overall</a>
                                             </li>

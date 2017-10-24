@@ -52,7 +52,7 @@ class Header extends Component {
     }
 
     gotoUser (value, event) {
-        window.open(value.html_url);
+        window.open(value.html_url, "_self");
     }
     toggleBackspaceRemoves () {
         this.setState({

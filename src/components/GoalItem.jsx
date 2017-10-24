@@ -85,17 +85,18 @@ class GoalItem extends Component {
 
     render() {
         const {title, id, serverKey, created_at } = this.props.goal;
+        const { image_base, name } = this.props.goal.user;
         const { email } = this.props.user;
         var myDate = new Date(created_at);
         let desired_comments = this.desiredComments(this.props.goal.id);
         return (
             <div className="media media-v2">
                 <a className="pull-left" href="#">
-                    <img className="media-object rounded-x" src={this.props.desired_user.image_base} alt="" />
+                    <img className="media-object rounded-x" src={image_base} alt="" />
                 </a>
                 <div className="media-body">
                     <h4 className="media-heading">
-                        <strong><a href="#">{this.props.desired_user.name}</a></strong> {'@' + this.props.desired_user.name}
+                        <strong><a href="#">{name}</a></strong> {'@' + name}
                         <small>{created_at}</small>
                     </h4>
                     <p>{title}</p>
@@ -105,7 +106,7 @@ class GoalItem extends Component {
                     </ul>
                     <ul className="list-inline pull-right">
                         {
-                            this.props.current_user.id === this.props.desired_user.id ?
+                            this.props.current_user.id === this.props.goal.user.id ?
                                 <li>
                                     <a className="" onClick={() => this.setState({ isEditVisible: true}) }>
                                         <i className="expand-list rounded-x fa fa-pencil" aria-hidden="true"></i>
@@ -114,7 +115,7 @@ class GoalItem extends Component {
                             : null
                         }
                         {
-                            this.props.current_user.id === this.props.desired_user.id ?
+                            this.props.current_user.id === this.props.goal.user.id ?
                                 <li>
                                     <a className="" onClick={() => this.deleteGoal(id, this.props.user_id) }>
                                         <i className="expand-list rounded-x fa fa-trash-o" aria-hidden="true"></i>
@@ -128,7 +129,7 @@ class GoalItem extends Component {
                         <li><a href="#"><i className="expand-list rounded-x fa fa-retweet"></i></a></li>
                     </ul>
                     <div className="col-md-8">
-                        { (this.state.isEditVisible && this.props.current_user.id === this.props.desired_user.id) ? <EditGoal goal={this.props.goal} title_value={this.state.title} updateGoal={this.updateGoal} editTitle={this.editTitle}  desired_user={this.props.desired_user} /> : null }
+                        { (this.state.isEditVisible && this.props.current_user.id === this.props.goal.user.id) ? <EditGoal goal={this.props.goal} title_value={this.state.title} updateGoal={this.updateGoal} editTitle={this.editTitle}  desired_user={this.props.goal.user} /> : null }
                     </div>
                     <div className="clearfix"></div>
                     {
