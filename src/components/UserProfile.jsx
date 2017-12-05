@@ -23,7 +23,7 @@ class UserProfile extends Component {
 
     updateUserProfile(displayName){
         var that = this;
-        fetch("http://localhost:3001/users/"+this.props.current_user.id+".json", {
+        fetch("SERVER_URL/users/"+this.props.current_user.id+".json", {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ class UserProfile extends Component {
         };
         setTimeout(function() {
             if (typeof image_base != "undefined"){
-                fetch("http://localhost:3001/users/"+that.props.current_user.id+".json", {
+                fetch("SERVER_URL/users/"+that.props.current_user.id+".json", {
                     method: "PATCH",
                     headers: {
                         'Content-Type': 'application/json',

@@ -17,7 +17,7 @@ class AddGoal extends Component {
         const { title } = this.state;
         const { email } = this.props.current_user.email;
         let user_id = this.props.current_user.id? this.props.current_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
-        fetch("http://localhost:3001/goals.json", {
+        fetch("SERVER_URL/goals.json", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

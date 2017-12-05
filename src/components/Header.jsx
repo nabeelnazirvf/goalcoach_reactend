@@ -41,7 +41,7 @@ class Header extends Component {
         if (!input) {
             return Promise.resolve({ options: [] });
         }
-        return fetch(`http://localhost:3001/users?search=${input}`, {
+        return fetch(`SERVER_URL/users?search=${input}`, {
             headers: {
                 'Content-Type': 'application/json','Authorization': window.localStorage.getItem('access_token')}
             })

@@ -20,7 +20,7 @@ class SignUp extends Component {
     signUp() {
         var id = undefined;
         const { email, password } = this.state;
-        fetch("http://localhost:3001/users.json", {
+        fetch("SERVER_URL/users.json", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ class SignUp extends Component {
                     this.props.logUser(email);
                     window.localStorage.setItem('access_token', json.access_token);
                     window.localStorage.setItem('email', email);
-                    fetch("http://localhost:3001/users/"+id+"/?email="+window.localStorage.getItem('email'), {
+                    fetch("SERVER_URL/users/"+id+"/?email="+window.localStorage.getItem('email'), {
                         method: "GET",
                         headers: {
                             'Content-Type': 'application/json',

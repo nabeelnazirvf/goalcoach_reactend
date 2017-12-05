@@ -28,7 +28,7 @@ class GoalItem extends Component {
     }
 
     deleteGoal(id, user_id){
-        fetch("http://localhost:3001/goals/"+id+".json", {
+        fetch("SERVER_URL/goals/"+id+".json", {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class GoalItem extends Component {
 
     updateGoal(id,email, title, user_id){
 
-        fetch("http://localhost:3001/goals/"+id+".json", {
+        fetch("SERVER_URL/goals/"+id+".json", {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

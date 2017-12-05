@@ -101,7 +101,7 @@ export function setComment(comment) {
 }
 export function getAllComments(){
     return (dispatch) => {
-        fetch("http://localhost:3001/comments/all_comments.json", {
+        fetch("SERVER_URL/comments/all_comments.json", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',

@@ -8,7 +8,7 @@ class GoalList extends Component {
 
     componentDidMount(){
         let user_id = this.props.desired_user.id? this.props.desired_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
-        fetch("http://localhost:3001/goals.json?user_id="+user_id, {
+        fetch("SERVER_URL/goals.json?user_id="+user_id, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',

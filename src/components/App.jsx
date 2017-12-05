@@ -20,7 +20,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 class App extends Component {
     componentWillMount() {
         this.props.setCurrentUser(JSON.parse(window.localStorage.getItem('currentUser')));
-        fetch("http://localhost:3001/goals_notifications.json", {
+        fetch("SERVER_URL/goals_notifications.json", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
