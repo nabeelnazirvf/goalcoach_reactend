@@ -4,11 +4,12 @@ import { goalRef } from '../firebase';
 import { setGoals, loadGoals} from "../actions/index";
 import GoalItem from './GoalItem';
 import { browserHistory } from 'react-router';
+import {SERVER_URL} from '../constants';
 class GoalList extends Component {
 
     componentDidMount(){
         let user_id = this.props.desired_user.id? this.props.desired_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
-        fetch("SERVER_URL/goals.json?user_id="+user_id, {
+        fetch(SERVER_URL+"/goals.json?user_id="+user_id, {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',

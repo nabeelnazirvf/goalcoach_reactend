@@ -4,6 +4,7 @@ import { setGoals, setCurrentUser } from "../actions/index";
 import { browserHistory } from 'react-router';
 import $ from "jquery";
 import GoalItem from './GoalItem';
+import {SERVER_URL} from '../constants';
 
 class AddGoal extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class AddGoal extends Component {
         const { title } = this.state;
         const { email } = this.props.current_user.email;
         let user_id = this.props.current_user.id? this.props.current_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
-        fetch("SERVER_URL/goals.json", {
+        fetch(SERVER_URL+"/goals.json", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

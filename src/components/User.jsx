@@ -5,6 +5,7 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import GoalList from './GoalList';
 import {Link} from 'react-router';
+import {SERVER_URL} from '../constants';
 
 class User extends Component {
     constructor(props) {
@@ -21,7 +22,7 @@ class User extends Component {
 
     componentWillMount() {
         let current_user_id = this.props.current_user.id? this.props.current_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
-        fetch("SERVER_URL/users/"+this.getQueryStringValue("user_id"), {
+        fetch(SERVER_URL+"/users/"+this.getQueryStringValue("user_id"), {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ class User extends Component {
     }
 
     followUnfollow(is_following){
-        fetch("SERVER_URL/users/follow_unfollow", {
+        fetch(SERVER_URL+"/users/follow_unfollow", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

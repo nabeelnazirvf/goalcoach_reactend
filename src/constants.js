@@ -12,3 +12,6 @@ export const SET_NOTIFICATIONS = 'SET_NOTIFICATIONS';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const SET_COMMENT = 'SET_COMMENT';
+
+const production_flag = false;
+export const SERVER_URL = production_flag ? "" : "http://localhost:3001/";

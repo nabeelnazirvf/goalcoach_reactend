@@ -2,7 +2,7 @@ import {
     SIGNED_IN, SET_GOALS, SET_COMPLETED, SET_USER_EMAIL, UPDATE_GOAL, DELETE_GOAL, LOAD_GOALS, SET_CURRENT_USER,
     SET_NOTIFICATIONS, SET_NOTIFICATION, SET_COMMENTS, SET_COMMENT
 } from '../constants';
-
+import {SERVER_URL} from '../constants';
 
 export function logUser(email) {
     const action = {
@@ -101,7 +101,7 @@ export function setComment(comment) {
 }
 export function getAllComments(){
     return (dispatch) => {
-        fetch("SERVER_URL/comments/all_comments.json", {
+        fetch(SERVER_URL+"/comments/all_comments.json", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',

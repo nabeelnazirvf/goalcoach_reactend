@@ -11,6 +11,7 @@ import { browserHistory } from 'react-router';
 import Header from './Header';
 import Footer from './Footer';
 import $ from "jquery";
+import {SERVER_URL} from '../constants';
 
 var faye = require('faye');
 var client = new faye.Client('http://localhost:9292/faye');
@@ -20,7 +21,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 class App extends Component {
     componentWillMount() {
         this.props.setCurrentUser(JSON.parse(window.localStorage.getItem('currentUser')));
-        fetch("SERVER_URL/goals_notifications.json", {
+        fetch(SERVER_URL+"/goals_notifications.json", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',

@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import { browserHistory } from 'react-router';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import {SERVER_URL} from '../constants';
 
 
 class Header extends Component {
@@ -41,7 +42,7 @@ class Header extends Component {
         if (!input) {
             return Promise.resolve({ options: [] });
         }
-        return fetch(`SERVER_URL/users?search=${input}`, {
+        return fetch(SERVER_URL+`/users?search=${input}`, {
             headers: {
                 'Content-Type': 'application/json','Authorization': window.localStorage.getItem('access_token')}
             })

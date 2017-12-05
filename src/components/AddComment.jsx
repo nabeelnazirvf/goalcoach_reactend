@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import { setComment } from "../actions/index";
 import { connect } from 'react-redux';
 import $ from "jquery";
+import {SERVER_URL} from '../constants';
 
 class AddComment extends Component {
 
@@ -16,7 +17,7 @@ class AddComment extends Component {
     addComment(unique_goal_id){
         const { commentTitle } = this.state;
         let user_id = this.props.current_user? this.props.current_user.id : JSON.parse(window.localStorage.getItem('currentUser')).id;
-        fetch("SERVER_URL/comments.json", {
+        fetch(SERVER_URL+"/comments.json", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',

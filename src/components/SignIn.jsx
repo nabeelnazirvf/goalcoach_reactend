@@ -3,8 +3,9 @@ import { Link } from 'react-router';
 import {logUser, setCurrentUser} from "../actions/index";
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import Header from './Header'
-import Footer from './Footer'
+import Header from './Header';
+import Footer from './Footer';
+import {SERVER_URL} from '../constants';
 class SignIn extends Component {
     constructor(props) {
         super(props);
@@ -22,7 +23,7 @@ class SignIn extends Component {
         var id = undefined;
         let photoURL = '';
         const { email, password } = this.state;
-        fetch("SERVER_URL/authenticate.json", {
+        fetch(SERVER_URL+"/authenticate.json", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +39,7 @@ class SignIn extends Component {
                     this.props.logUser(email);
                     window.localStorage.setItem('access_token', json.access_token);
                     window.localStorage.setItem('email', email);
-                    fetch("SERVER_URL/users/"+id+"/?email="+window.localStorage.getItem('email'), {
+                    fetch(SERVER_URL+"/users/"+id+"/?email="+window.localStorage.getItem('email'), {
                         method: "GET",
                         headers: {
                             'Content-Type': 'application/json',

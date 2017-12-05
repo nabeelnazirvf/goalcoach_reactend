@@ -3,8 +3,10 @@ import { Link } from 'react-router';
 import {logUser} from "../actions/index";
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import Header from './Header'
-import Footer from './Footer'
+import Header from './Header';
+import Footer from './Footer';
+import {SERVER_URL} from '../constants';
+
 class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +22,7 @@ class SignUp extends Component {
     signUp() {
         var id = undefined;
         const { email, password } = this.state;
-        fetch("SERVER_URL/users.json", {
+        fetch(SERVER_URL+"/users.json", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +40,7 @@ class SignUp extends Component {
                     this.props.logUser(email);
                     window.localStorage.setItem('access_token', json.access_token);
                     window.localStorage.setItem('email', email);
-                    fetch("SERVER_URL/users/"+id+"/?email="+window.localStorage.getItem('email'), {
+                    fetch(SERVER_URL+"/users/"+id+"/?email="+window.localStorage.getItem('email'), {
                         method: "GET",
                         headers: {
                             'Content-Type': 'application/json',

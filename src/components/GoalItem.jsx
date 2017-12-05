@@ -6,6 +6,7 @@ import AddComment from "./AddComment";
 import { updateGoal, setComments, getAllComments} from "../actions/index";
 import { browserHistory } from 'react-router';
 import Comment from "./Comment";
+import {SERVER_URL} from '../constants';
 
 class GoalItem extends Component {
 
@@ -28,7 +29,7 @@ class GoalItem extends Component {
     }
 
     deleteGoal(id, user_id){
-        fetch("SERVER_URL/goals/"+id+".json", {
+        fetch(SERVER_URL+"/goals/"+id+".json", {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -51,7 +52,7 @@ class GoalItem extends Component {
 
     updateGoal(id,email, title, user_id){
 
-        fetch("SERVER_URL/goals/"+id+".json", {
+        fetch(SERVER_URL+"/goals/"+id+".json", {
             method: "PUT",
             headers: {
                 'Content-Type': 'application/json',

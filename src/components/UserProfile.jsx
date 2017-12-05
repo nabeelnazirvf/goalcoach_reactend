@@ -8,6 +8,7 @@ import $ from "jquery";
 import '../user_profile.css'
 import Header from './Header';
 import Footer from './Footer';
+import {SERVER_URL} from '../constants';
 
 class UserProfile extends Component {
 
@@ -23,7 +24,7 @@ class UserProfile extends Component {
 
     updateUserProfile(displayName){
         var that = this;
-        fetch("SERVER_URL/users/"+this.props.current_user.id+".json", {
+        fetch(SERVER_URL+"/users/"+this.props.current_user.id+".json", {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ class UserProfile extends Component {
         };
         setTimeout(function() {
             if (typeof image_base != "undefined"){
-                fetch("SERVER_URL/users/"+that.props.current_user.id+".json", {
+                fetch(SERVER_URL+"/users/"+that.props.current_user.id+".json", {
                     method: "PATCH",
                     headers: {
                         'Content-Type': 'application/json',
